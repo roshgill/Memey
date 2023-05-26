@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "memey-e9b65"
+  },
+  "targets": {
+    "memey-e9b65": {
+      "hosting": {
+        "Memey": [
+          "memey-e9b65"
+        ]
+      }
+    }
+  }
+}

@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+html, body
+{
+    background-color: rgb(17, 17, 17);
+    cursor: url('/assets/cursor2.png'), pointer;
+    /* max-width: 100%;
+    overflow-x: hidden; */
+}

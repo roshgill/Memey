@@ -1,0 +1,170 @@
+.fade-out {
+  animation: fadeOut 1s forwards;
+}
+
+.transition {
+  transition: opacity 1s;
+  transition: background 1s ;
+  opacity: 0;
+}
+
+.fade-out {
+  transition: opacity 1s;
+  opacity: 0;
+}
+
+.outer-div {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(17, 17, 17);
+}
+
+.inner-div {
+  position: absolute;
+  top: 10px;
+  left: 55px;
+  right: 55px;
+  bottom: 10px;
+  background-color: rgb(17, 17, 17);
+  overflow: auto;
+}
+
+.inner-div.scrolled {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  right: 15px;
+  bottom: 10px;
+  background-color: rgb(17, 17, 17);
+  overflow: auto;
+  
+}
+
+.div1 { 
+  top: 70px;
+  width: 100%;
+  height: 100px; 
+  display:inline-block; 
+  position:fixed; 
+  left:75px; 
+}
+
+.div2 { 
+  display:block; 
+  left:60px; 
+  top:260px;
+  position:fixed; 
+}
+
+.div3 { 
+  display:block; 
+  left:670px; 
+  top:260px;
+  position:fixed; 
+}
+
+h1 {
+  font-family: "Arial Black", Gadget, sans-serif;
+  font-size: 60px;
+  letter-spacing: -6.5px;
+  color: #FFFFFF;
+  font-weight: 400;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: uppercase;
+  line-height: 40px; /* add this line */
+  display: flex;  /* change from inline-block to flex */
+  margin-top: 12px;
+  margin-bottom: 16px;
+  margin-left: -2px;
+  margin-right: 4px;
+  }
+
+h2
+{
+  position: fixed;
+  font-family: "Arial Black", Gadget, sans-serif;
+  font-size: 27px;
+  letter-spacing: -0.6px;
+  word-spacing: -1px;
+  color: #FFFFFF;
+  font-weight: 400;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: uppercase;
+}
+
+.show {
+  opacity: 1;
+  transition: opacity 0.3s ease-in;
+}
+
+.hide-contents {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+.box {
+  display: inline-flex;  /* change from inline-block to inline-flex */
+  border-width: 4.5px;
+  border-style: solid;
+  box-sizing: border-box; /* To include padding and border in the box's total width and height */
+  justify-content: center; /* center contents horizontally */
+  align-items: center; /* center contents vertically */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.box-outer {
+  border-color: #1645F5;
+}
+
+.box-middle {
+  border-color: #ED3833;
+}
+
+.box-inner {
+  border-color: #F0F14E;
+}
+
+
+.line {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+  border-width: 10px;
+}
+
+.line:hover {
+  cursor: url('/assets/cursor4.png'), auto;
+}
+
+.line::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4.5px;
+  transition: width 0.3s ease; /* Adjust the transition duration as needed */
+}
+
+.line.red::before {
+  background-color: #1645F5; /* Red color */
+}
+
+.line.green::before {
+  background-color: #ED3833; /* Blue color */
+}
+
+
+.line:hover::before {
+  width: 0;
+  right: 100%;
+}
