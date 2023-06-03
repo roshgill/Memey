@@ -11,12 +11,14 @@ import { TitleComponent } from './title/title.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import { AboutUsComponent } from './about-us/about-us.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CdkScrollingComponent,
     TitleComponent,
+    AboutUsComponent,
   ],
   imports: [
     BrowserModule,

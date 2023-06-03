@@ -4,6 +4,8 @@ import { NgxMasonryOptions, NgxMasonryComponent } from 'ngx-masonry';
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, list, getDownloadURL } from "firebase/storage";
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-cdk-scrolling',
@@ -38,6 +40,7 @@ export class CdkScrollingComponent {
   promiseState = 'pending';
   firsttime = true;
   isLoading = false;
+  isPaneVisible = false;
 
 
   //A way to track of all the elements in your HTML with a 'colorDiv' reference
@@ -63,7 +66,7 @@ export class CdkScrollingComponent {
 
   3. Use asynch function to begin fetching specific number of images and appending into masonryImages using xhr
   */
-  constructor(private renderer: Renderer2) {
+  constructor(private renderer: Renderer2, private router: Router) {
     const firebaseConfig = {
       projectId: 'memey-e9b65',
       appId: '1:693078826607:web:25689a779fc6b129bf779a',
@@ -165,8 +168,9 @@ export class CdkScrollingComponent {
     const scrollPosition = this.scrollableDiv.nativeElement.scrollTop;
     this.shouldHideContents = scrollPosition > 70;
     this.isScrolled = scrollPosition > 70;
+    this.isPaneVisible = window.pageYOffset > 70;
 
-
+    this.paneisrendered();
     this.colorDivs.forEach(div => this.checkIfInView(div));
     if (this.scrollTimeout) {
       clearTimeout(this.scrollTimeout);
@@ -178,7 +182,7 @@ export class CdkScrollingComponent {
       const documentHeight = document.documentElement.scrollHeight;
 
       // Load more images when the user scrolls near the bottom of the page
-      if (scrollPosition + windowHeight >= documentHeight * 0.3 && this.promiseState == 'loaded' && !this.isLoading && this.masonryImages.length < 500) {
+      if (scrollPosition + windowHeight >= documentHeight * 0.3 && this.promiseState == 'loaded' && !this.isLoading && this.masonryImages.length < 1000) {
         this.isLoading = true;
         this.loadImages(30).then(() => {
           this.isLoading = false;
@@ -247,4 +251,16 @@ export class CdkScrollingComponent {
     this.observers.forEach(obs => obs.disconnect());
   }
 
+  navigateToAboutUs() {
+  this.router.navigate(['/about-us']);
+  }
+
+  pageReload() {
+    window.location.reload();
+  }
+
+  paneisrendered(){
+    if (this.isPaneVisible)
+      console.log('paneisrendered');
+  }
 }

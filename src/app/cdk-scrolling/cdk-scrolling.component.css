@@ -1,15 +1,15 @@
 .fade-out {
-  animation: fadeOut 1s forwards;
+  animation: fadeOut 5s forwards;
 }
 
 .transition {
-  transition: opacity 1s;
-  transition: background 1s ;
+  transition: opacity 5s;
+  transition: background 5s ;
   opacity: 0;
 }
 
 .fade-out {
-  transition: opacity 1s;
+  transition: opacity 2s;
   opacity: 0;
 }
 
@@ -25,22 +25,11 @@
 .inner-div {
   position: absolute;
   top: 10px;
-  left: 55px;
-  right: 55px;
+  left: 25px;
+  right: 25px;
   bottom: 10px;
   background-color: rgb(17, 17, 17);
   overflow: auto;
-}
-
-.inner-div.scrolled {
-  position: absolute;
-  top: 10px;
-  left: 15px;
-  right: 15px;
-  bottom: 10px;
-  background-color: rgb(17, 17, 17);
-  overflow: auto;
-  
 }
 
 .div1 { 
@@ -49,21 +38,36 @@
   height: 100px; 
   display:inline-block; 
   position:fixed; 
-  left:75px; 
+  left:29px; 
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
 }
 
 .div2 { 
   display:block; 
-  left:60px; 
-  top:260px;
-  position:fixed; 
+  left:29px; 
+  top:220px;
+  position:fixed;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
 }
 
 .div3 { 
   display:block; 
-  left:670px; 
-  top:260px;
+  left:470px; 
+  top:220px;
   position:fixed; 
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
 }
 
 h1 {
@@ -97,6 +101,7 @@ h2
   font-variant: normal;
   text-transform: uppercase;
 }
+
 
 .show {
   opacity: 1;
@@ -134,15 +139,15 @@ h2
 }
 
 
+.line:hover {
+  cursor: url('/assets/cursor4.png'), auto;
+}
+
 .line {
   position: relative;
   display: inline-block;
   padding-bottom: 8px;
   border-width: 10px;
-}
-
-.line:hover {
-  cursor: url('/assets/cursor4.png'), auto;
 }
 
 .line::before {
@@ -152,19 +157,53 @@ h2
   left: 0;
   width: 100%;
   height: 4.5px;
-  transition: width 0.3s ease; /* Adjust the transition duration as needed */
+  transition: all 0.3s ease;
 }
 
 .line.red::before {
-  background-color: #1645F5; /* Red color */
+  background-color: #ED3833; /* Red color */
 }
 
 .line.green::before {
-  background-color: #ED3833; /* Blue color */
+  background-color: #1645F5; /* Blue color */
 }
 
-
 .line:hover::before {
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.line::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
   width: 0;
-  right: 100%;
+  height: 4.5px;
+  transition: all 0.3s ease;
+}
+
+.line.red::after {
+  background-color: #ED3833; /* Red color */
+}
+
+.line.green::after {
+  background-color: #1645F5; /* Blue color */
+}
+
+.line:hover::after {
+  width: 100%;
+  transition: width 0.3s ease 0.3s; /* Starts transition after a delay of 0.3s */
+}
+
+.sticky-pane {
+  display: none;
+  position: sticky;
+  top: 0;
+  /* ...additional styles... */
+  z-index: 100;
+}
+
+.sticky-pane.visible {
+  display: flex;
 }

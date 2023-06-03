@@ -1,57 +1,25 @@
-
-<!-- 
-1. This is HTML code that displays images in a grid using a third-party library called NgxMasonry. 
-The code defines a container <div> element with a style of margin-left: 130px, which adds a margin on the 
-  left side of the container. Inside the container, there is an <ngx-masonry> element that uses the 
-    masonryOptions property to set up the grid layout. The margin-bottom property sets the distance between 
-    the bottom of each grid item, and the style property sets the width and margins of the entire grid.
-
-2. Inside the <ngx-masonry> element, there is a <div ngxMasonryItem> element that is repeated for each image 
-  in the masonryImages array using the *ngFor directive. The index as idx syntax assigns the index of each image 
-  to the variable idx. The style property of this element sets the width of each grid item to 15% of the container width.
-
-3. Inside each <div ngxMasonryItem> element, there is an <img> element that displays the image. The [attr.data-src] 
-  property sets the data-src attribute of the <img> element to the image title from the masonryImages array. 
-  This attribute will be used by a JavaScript function to lazy load the images, improving the performance of the page.
-  The src property of the <img> element sets a placeholder image to be displayed until the actual image is loaded. 
-  The width property sets the width of the image to 100% of the width of the <div ngxMasonryItem> element, which makes 
-  each image fill its grid cell.
- -->
-
-<div class="outer-div">
-  <div #scrollableDiv class="inner-div" [ngClass]="{ 'scrolled': isScrolled }" (scroll)="onScroll($event)">
-    <div class="div1">
+ <div class="outer-div">
+  <div #scrollableDiv class="inner-div" (scroll)="onScroll($event)">
+    <div class="div1" (click)="pageReload()">
       <div [ngClass]="{ 'hide-contents': shouldHideContents, 'show': !shouldHideContents }">
-        <div class="box box-outer">
-          <div class="box box-middle">
-            <div class="box box-inner">
-              <h1>MEMEY</h1>
-            </div>
-          </div>
-        </div>
+        <h1>MEMEY</h1>
       </div>
-    <div class="div2">
+    <div class="div2" (click)="pageReload()">
         <div [ngClass]="{ 'hide-contents': shouldHideContents, 'show': !shouldHideContents }">
           <h2 class="line red">ENTER THY DUNGEON</h2>
         </div>
     </div>
-    <div class="div3">
+    <button class="div3" (click)="navigateToAboutUs()">
       <div [ngClass]="{ 'hide-contents': shouldHideContents, 'show': !shouldHideContents }">
         <h2 class="line green">ABOUT US</h2>
-
       </div>
+    </button>
   </div>
-    </div>
-    <ngx-masonry [options]="masonryOptions" style="width: 500%; margin: 8; top:360px; left: 0px;" [ordered]="true">
-      <div ngxMasonryItem *ngFor="let image of masonryImages;index as idx" style="width: 6.8%; position: relative; margin: 6px;">
+    <ngx-masonry [options]="masonryOptions" style="width: 500%; margin: 30; top:310px; left: 0px;" [ordered]="true">
+      <div ngxMasonryItem *ngFor="let image of masonryImages;index as idx" style="width: 6.0%; position: relative; margin: 6px;">
         <div #colorDiv [ngStyle]="{'position': 'absolute', 'top': '0', 'right': '0', 'bottom': '0', 'left': '0', 'background': image.color, 'z-index': '2'}"> </div> <!-- color div -->
         <img class="image-container" [attr.src]="image.imageUrl" width="100%" style="z-index: 1">
       </div>
     </ngx-masonry>
   </div>
 </div>
-
-    <!-- <ngx-masonry [options]="masonryOptions" margin-bottom="40px" style="width: 500%; margin: 10px;" [ordered]="true" (itemsLoaded)="itemsLoaded()">
-      <div ngxMasonryItem *ngFor="let image of masonryImages;index as idx" style="width: 6%; position: relative">
-        <div #colorDiv [ngStyle]="{'position': 'absolute', 'top': '0', 'right': '0', 'bottom': '0', 'left': '0', 'background': image.color, 'z-index': '2'}"></div> <!-- color div -->
-        <!-- <img [attr.src]="image.imageUrl" width="100%" style="z-index: 1"> -->
