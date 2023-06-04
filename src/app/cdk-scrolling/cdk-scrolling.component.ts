@@ -35,10 +35,12 @@ export class CdkScrollingComponent {
   //length will be calculated for instead
   masonryImages: { title: string, imageUrl: string, color: string }[] = [];  
   colors = ['#ED3833', '#1645F5', '#6DED8A', '#F0F14E', '#FF5F85'];
-  listReference: any; // Add listReference as a class property
+  memesListReference: any; // Add memesListReference as a class property
+  gifsListReference: any; // Add gifsListReference as a class property
   initialLoadComplete: Promise<void> | undefined;
   promiseState = 'pending';
-  firsttime = true;
+  firsttimememes = true;
+  firsttimegifs = true;
   isLoading = false;
   isPaneVisible = false;
 
@@ -48,9 +50,8 @@ export class CdkScrollingComponent {
   @ViewChild('scrollableDiv', {static: true}) scrollableDiv!: ElementRef;
   public shouldHideContents = false;
   public isScrolled = false;
-  pageToken: string | undefined;
-
-
+  memespageToken: string | undefined;
+  gifspageToken: string | undefined;
 
   /* 
   0. Renderer2 is intitialized in the constructor; making it available for use within the component's methods, 
@@ -82,32 +83,46 @@ export class CdkScrollingComponent {
   const app = initializeApp(firebaseConfig);
   //const storage = getStorage(app, 'memey-e9b65-f50db71f96db.json');
   const storage = getStorage(app);
-  this.listReference = ref(storage, 'memes/');
+  this.memesListReference = ref(storage, 'memes/');
+  this.gifsListReference = ref(storage, 'gifs/');
   // Log the list reference
-  console.log('List reference:', this.listReference); 
-  var image_num = 100;
-  // Call the loadImages function here
-  this.loadImages(image_num);
+  console.log('List reference:', this.memesListReference); 
+  //var image_num = 20;
+
+  this.loadInitialImages();
   }
 
-  async loadImages(image_num: number) {
+  async loadInitialImages() {
+    const memeBatchSize = 4;
+    const gifBatchSize = 10;
   
-  if (!this.firsttime && !this.pageToken) 
+    for (let i = 0; i < 5; i++) { // Load 40 memes and 10 gifs in total
+      await this.loadGifs(gifBatchSize);
+      await this.loadMemes(memeBatchSize);
+    }
+  }
+
+  async loadMemes(image_num: number) {
+  //This starting functionality simply handles the first time meme database is accessed 
+  if (!this.firsttimememes && !this.memespageToken) 
     return;
   
   let firstPage;
-  if (this.firsttime == true) 
+  if (this.firsttimememes == true) 
   {
-    firstPage = await list(this.listReference, { maxResults: image_num });
-    this.firsttime = false;
+    //First time meme database is accessed
+    //Place all urls into firstPage
+    firstPage = await list(this.memesListReference, { maxResults: image_num });
+    this.firsttimememes = false;
   }
   else {
-    firstPage = await list(this.listReference, { maxResults: image_num, pageToken: this.pageToken});
+    //Every other time meme database is accessed
+    firstPage = await list(this.memesListReference, { maxResults: image_num, pageToken: this.memespageToken});
   }
 
-  this.pageToken = firstPage.nextPageToken;
-  console.log('Rawrrrrr ' + this.pageToken)
-
+  this.memespageToken = firstPage.nextPageToken;
+  console.log('Rawrrrrr ' + this.memespageToken)
+  let counter = 0;
   /* 
     getDownloadURL() only retrieves the URL where the image is stored. 
     To actually download and process the image, we make a separate request, 
@@ -117,6 +132,15 @@ export class CdkScrollingComponent {
     which is then stored in the masonryImages array for display by ngxMasonry.
   */
   firstPage.items.forEach((itemRef: any) => {
+    //Here we want to create logic where every 5 times a meme in firstPage is pushed, we want the 
+    //next thing to be accessed will be 1 gif from gifs folder. We must make sure to save
+    //the page token as well
+    // counter++;
+    // if (counter == 5)
+    // {
+    //   this.loadGifs();
+    //   counter = 0;
+    // }
     getDownloadURL(itemRef)
       .then((url) => {
         const xhr = new XMLHttpRequest();
@@ -148,6 +172,55 @@ export class CdkScrollingComponent {
   console.log(this.masonryImages.length)
 }
 
+  async loadGifs(image_num: number) {
+
+    let firstPage;
+
+    if (!this.firsttimegifs && !this.gifspageToken)
+      return;
+      
+    if (this.firsttimegifs == true)
+    {
+      firstPage = await list(this.gifsListReference, { maxResults: image_num })
+      this.firsttimegifs = false;
+      console.log("Gifs Folder was accessed first time");
+    }
+    else {
+      firstPage = await list(this.gifsListReference, {maxResults: image_num, pageToken: this.gifspageToken });
+      console.log("Gifs Folder was accessed the next time");
+    }
+
+    this.gifspageToken = firstPage.nextPageToken;
+    console.log(this.gifspageToken);
+
+    firstPage.items.forEach((itemRef: any) => {
+      getDownloadURL(itemRef)
+        .then((url) => {
+          const xhr = new XMLHttpRequest();
+          xhr.responseType = 'blob';
+          /*
+            The xhr.onload function is a callback function. It's a set of instructions to the xhr 
+            object to follow when the image fetching is completed. While waiting for the image 
+            to load, your code can continue executing other tasks, and when the image is loaded 
+            (the event), the xhr.onload function is called (executed) to process the image data.
+            */
+          xhr.onload = () => {
+            const blob = xhr.response;
+            const imageUrl = URL.createObjectURL(blob);
+            this.masonryImages.push({ title: itemRef.name, imageUrl: imageUrl, color: this.getRandomColor() });
+            console.log('Image added:', { title: itemRef.name, imageUrl: imageUrl });
+          };
+          xhr.open('GET', url);
+          xhr.send();
+        })
+        .catch((error) => {
+          console.error('Error fetching image:', error);
+        });
+    });
+    console.log('Images are being fetched and processed');
+    console.log(this.masonryImages.length)
+  }
+
   /*
   1. @HostListener is a decorator in Angular that listens for events on the host element. 
   In this case, it's listening to the scroll event on the window object. The [] indicates 
@@ -163,12 +236,13 @@ export class CdkScrollingComponent {
   6. 100 images will be loaded each time, calls to loadImages will not occur concurrently because of isLoading variable
   */
   scrollTimeout: any;
+  memeCount = 0;
 
   onScroll(event: any) {
     const scrollPosition = this.scrollableDiv.nativeElement.scrollTop;
     this.shouldHideContents = scrollPosition > 70;
     this.isScrolled = scrollPosition > 70;
-    this.isPaneVisible = window.pageYOffset > 70;
+    this.isPaneVisible = window.pageYOffset > 50;
 
     this.paneisrendered();
     this.colorDivs.forEach(div => this.checkIfInView(div));
@@ -181,11 +255,18 @@ export class CdkScrollingComponent {
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
 
-      // Load more images when the user scrolls near the bottom of the page
-      if (scrollPosition + windowHeight >= documentHeight * 0.3 && this.promiseState == 'loaded' && !this.isLoading && this.masonryImages.length < 1000) {
+    // Load more images when the user scrolls near the bottom of the page
+    // Load more images when the user scrolls near the bottom of the page
+      if (scrollPosition + windowHeight >= documentHeight * 0.7 && this.promiseState == 'loaded' && !this.isLoading && this.masonryImages.length < 1000) {
         this.isLoading = true;
-        this.loadImages(30).then(() => {
+        this.loadMemes(15).then(() => {
+          this.memeCount += 4; // increment memeCount
           this.isLoading = false;
+          if (this.memeCount % 4 == 0) { // check if we should load gifs
+            this.loadGifs(25).then(() => {
+              console.log('Gifs loaded');
+            });
+          }
         });
       }
     }, 200);
