@@ -1,6 +1,6 @@
 .container {
   display: grid;
-  grid-template-columns: 23rem 1fr 23rem;
+  grid-template-columns: 21rem 1fr 21rem;
   grid-template-rows: auto 1fr auto;
   grid-template-areas: 
     "header header header"
@@ -13,25 +13,56 @@
   padding: 4.5rem;
   background-color: yellow;
   border: 2px solid black; /* Adjust as needed */
-
 }
 
 .nav {
   grid-area: nav;
   padding: 3rem;
   background-color:blue;
+  display: flex;
+  justify-content: center; /* Horizontally align the content to the center */
+}
+
+.nav h2 {
+  text-align: center; /* Center the text */
+  font-size: 22px;
+  margin: auto;
+}
+
+.rounded-box {
+  margin-top: 90px;
+  width: 90%;  /* Adjust as needed */
+  height: 80%;  /* Adjust as needed */
+  background-color: #ff0000;
+  border-radius: 20px;
 }
 
 .content {
   grid-area: content;
   padding: 3rem;
   background-color: gray;
+  position: relative;
 }
 
 .adspane {
   grid-area: sidebar;
   padding: 3rem;
   background-color: purple;
+  display: flex;
+  justify-content: center; /* Horizontally align the content to the center */
+}
+
+.adspane h2 {
+  text-align: center; /* Center the text */
+  font-size: 22px;
+  margin: auto;
+}
+
+.adspane .rounded-box {
+  width: 100%;  /* Adjust as needed */
+  height: 40%;  /* Adjust as needed */
+  background-color: red;
+  border-radius: 20px;
 }
 
 @media (max-width: 1024px) {
@@ -49,13 +80,11 @@
 }
 
 .inner-div {
-    position: absolute;
-    justify-content: center;
-    align-items: center;
-    top: 150px;
-    left: 250px;
-    right: 200px;
-    bottom: 10px;
+    position: absolute; /* This positions the div relative to the nearest positioned ancestor */
+    top: 20px;
+    bottom: 0;
+    left: 20px;
+    right: 20px;
     background-color: rgb(17, 17, 17);
     overflow: auto;
   }  
@@ -213,13 +242,12 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    margin: fill; /* Increased top and bottom margin */
-    max-width: 130%;
+    align-items: flex-start; /* change to start to avoid vertical centering */
+    padding: 1rem; /* change margin to padding for space within the container */
+    width: 100%; /* change width to be 100% to fit the container size */
     gap: 20px;
-    height: auto;
-    width: 600px;
-}
+  }
+  
   
 .meme-image {
     height: 700px;
