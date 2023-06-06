@@ -12,6 +12,10 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { AboutUsComponent } from './about-us/about-us.component';
+import { HomepageComponent } from './homepage/homepage.component';
+
+import { MatCardModule } from '@angular/material/card';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -19,6 +23,7 @@ import { AboutUsComponent } from './about-us/about-us.component';
     CdkScrollingComponent,
     TitleComponent,
     AboutUsComponent,
+    HomepageComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,6 +31,8 @@ import { AboutUsComponent } from './about-us/about-us.component';
     BrowserAnimationsModule,
     NgxMasonryModule,
     ScrollingModule,
+    MatCardModule,
+    InfiniteScrollModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideStorage(() => getStorage())
   ],

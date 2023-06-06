@@ -81,7 +81,6 @@ export class CdkScrollingComponent {
   }
 
   const app = initializeApp(firebaseConfig);
-  //const storage = getStorage(app, 'memey-e9b65-f50db71f96db.json');
   const storage = getStorage(app);
   this.memesListReference = ref(storage, 'memes/');
   this.gifsListReference = ref(storage, 'gifs/');
@@ -132,15 +131,6 @@ export class CdkScrollingComponent {
     which is then stored in the masonryImages array for display by ngxMasonry.
   */
   firstPage.items.forEach((itemRef: any) => {
-    //Here we want to create logic where every 5 times a meme in firstPage is pushed, we want the 
-    //next thing to be accessed will be 1 gif from gifs folder. We must make sure to save
-    //the page token as well
-    // counter++;
-    // if (counter == 5)
-    // {
-    //   this.loadGifs();
-    //   counter = 0;
-    // }
     getDownloadURL(itemRef)
       .then((url) => {
         const xhr = new XMLHttpRequest();
@@ -244,7 +234,6 @@ export class CdkScrollingComponent {
     this.isScrolled = scrollPosition > 70;
     this.isPaneVisible = window.pageYOffset > 50;
 
-    this.paneisrendered();
     this.colorDivs.forEach(div => this.checkIfInView(div));
     if (this.scrollTimeout) {
       clearTimeout(this.scrollTimeout);
@@ -291,7 +280,6 @@ export class CdkScrollingComponent {
     }
   }
 
-
   //Observers job is to watch certain parts of a webpage 
   //(like some colored boxes), and tell you when these 
   //parts come into view or go out of view
@@ -332,16 +320,15 @@ export class CdkScrollingComponent {
     this.observers.forEach(obs => obs.disconnect());
   }
 
+  navigateToHome() {
+    this.router.navigate(['/home-page']);
+  }
+
   navigateToAboutUs() {
   this.router.navigate(['/about-us']);
   }
 
   pageReload() {
     window.location.reload();
-  }
-
-  paneisrendered(){
-    if (this.isPaneVisible)
-      console.log('paneisrendered');
   }
 }

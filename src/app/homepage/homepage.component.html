@@ -1,0 +1,49 @@
+
+<div class="container">
+    <div class="header">
+        <div>
+            <div class="div0" (click)="pageReload()">
+                <h1>MEMEY</h1>
+            </div>
+            <div class="div1" (click)="pageReload()">
+                <h2 class="line blue">HOME</h2>
+            </div>
+            <div class="div2" (click)="navigateToDungeon()">
+                <h2 class="line red">ENTER THY DUNGEON</h2>
+            </div>
+            <button class="div3" (click)="navigateToAboutUs()">
+                <h2 class="line green">ABOUT US</h2>
+            </button>
+        </div>
+    </div>
+    <div class="nav"></div>
+    <div class="content"></div>
+    <div class="adspane"></div>
+</div>
+
+<!-- <div>
+    <div class="div0" (click)="pageReload()">
+        <h1>MEMEY</h1>
+    </div>
+    <div class="div1" (click)="pageReload()">
+        <h2 class="line blue">HOME</h2>
+    </div>
+    <div class="div2" (click)="navigateToDungeon()">
+        <h2 class="line red">ENTER THY DUNGEON</h2>
+    </div>
+    <button class="div3" (click)="navigateToAboutUs()">
+        <h2 class="line green">ABOUT US</h2>
+    </button>
+</div>
+
+<div class="inner-div">
+    <div class="memes-container" infiniteScroll
+     [infiniteScrollDistance]="2"
+     [infiniteScrollThrottle]="50"
+     (scrolled)="onScrollDown()">
+    <div *ngFor="let meme of memeImages">
+        <img class="meme-image" [src]="meme.imageUrl">
+        <p>Wassuppp</p>
+    </div>
+</div> -->
+
