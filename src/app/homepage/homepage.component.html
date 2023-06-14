@@ -19,12 +19,23 @@
     <div class="nav">
         <h2>New Features Coming Soon!</h2>
         <div class="rounded-box"></div>
+
     </div>
     <div class="content">
-    </div>
-    <div class="adspane">
-        <h2>Colored Boxes ... For Now</h2>
-        <div class="rounded-box"></div>
+        <div class="inner-div">
+            <div class="memes-container" infiniteScroll
+             [infiniteScrollDistance]="10"
+             [infiniteScrollThrottle]="50"
+             (scrolled)="onScrollDown()">
+             <div *ngFor="let meme of memeImages" class="memes-container">
+                <img class="meme-image" [src]="meme.imageUrl">
+            </div>
+        </div>
+        <div class="box-container">
+            <h2>COLORED BOXES</h2>
+            <div class="new-rounded-box"></div>
+            <div class="new-rounded-box2"></div>
+        </div>
     </div>
 </div>
 

@@ -17,12 +17,13 @@ export interface MemeCard {
 })
 export class HomepageComponent {
 
-  memeImages: { title: string, imageUrl: string }[] = [];  
+  memeImages: { title: string, imageUrl: string, liked: boolean }[] = [];  
   memesListReference: any; // Add memesListReference as a class property
   initialLoadComplete: Promise<void> | undefined;
   promiseState = 'pending';
   firsttimememes = true;
   isLoading = false;
+  isDisabled = true;
 
   @ViewChild('scrollableDiv', {static: true}) scrollableDiv!: ElementRef;
   memespageToken: string | undefined;
@@ -89,7 +90,7 @@ export class HomepageComponent {
           xhr.onload = () => {
             const blob = xhr.response;
             const imageUrl = URL.createObjectURL(blob);
-            this.memeImages.push({ title: itemRef.name, imageUrl: imageUrl});
+            this.memeImages.push({ title: itemRef.name, imageUrl: imageUrl, liked: false });
             console.log('Image added:', { title: itemRef.name, imageUrl: imageUrl });
           };
           xhr.open('GET', url);
@@ -107,41 +108,6 @@ export class HomepageComponent {
     console.log(this.memeImages.length)
   }
 
-  /*
-  1. @HostListener is a decorator in Angular that listens for events on the host element. 
-  In this case, it's listening to the scroll event on the window object. The [] indicates 
-  that there are no arguments to be passed to the function that handles this event.
-  2. scrollPosition gets the current scroll position in the document
-  3. windowHeight gets the current window height
-  4. documentHeight gets the total height of the entire document, including the part 
-  currently out of view.
-  5. if statement conditional checks whether the user has scrolled beyond 30% of the 
-  document's total height, and also checks whether the app is currently loading images 
-  and whether there are fewer than 500 images already loaded. If all these conditions are met, 
-  then more images are loaded.
-  6. 100 images will be loaded each time, calls to loadImages will not occur concurrently because of isLoading variable
-  */
-  // scrollTimeout: any;
-
-  // onScroll(event: any) {
-
-  //   const scrollPosition = this.scrollableDiv.nativeElement.scrollTop;
-
-  //   this.scrollTimeout = setTimeout(() => {
-  //     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-  //     const windowHeight = window.innerHeight;
-  //     const documentHeight = document.documentElement.scrollHeight;
-
-  //     // Load more images when the user scrolls near the bottom of the page
-  //     if (this.promiseState == 'loaded' && !this.isLoading && this.memeImages.length < 1000) {
-  //       this.isLoading = true;
-  //       this.loadMemes(30).then(() => {
-  //         this.isLoading = false;
-  //       });
-  //     }
-  //   }, 200);
-  // }
-
   onScrollDown() {
     if (this.promiseState == 'loaded' && !this.isLoading && this.memeImages.length < 1000) {
       this.isLoading = true;
@@ -149,6 +115,10 @@ export class HomepageComponent {
         this.isLoading = false;
       });
     }
+  }
+
+  toggleIcons() {
+    this.isDisabled = !this.isDisabled;
   }
 
   navigateToAboutUs() {
