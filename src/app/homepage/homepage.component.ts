@@ -1,39 +1,33 @@
-import { Component, OnInit, ViewChild, Renderer2, AfterViewInit, ElementRef, HostListener, ViewChildren, QueryList, Directive } from '@angular/core';
-import { NgxMasonryOptions, NgxMasonryComponent } from 'ngx-masonry';
+// Import necessary modules from Angular and Firebase
+import { Component, OnInit, ViewChild, Renderer2, ElementRef} from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, list, getDownloadURL } from "firebase/storage";
-import { ScrollingModule } from '@angular/cdk/scrolling';
 import { Router } from '@angular/router';
 
-export interface MemeCard {
-  name: string;
-  age: number;
-}
-
+// Define the component metadata
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css']
 })
-export class HomepageComponent {
 
-  memeImages: { title: string, imageUrl: string, liked: boolean }[] = [];  
-  memesListReference: any; // Add memesListReference as a class property
+// Define the HomepageComponent class
+export class HomepageComponent {
+  // Define properties for the component
+  memeImages: { title: string, imageUrl: string }[] = [];  
+  memesListReference: any;
   initialLoadComplete: Promise<void> | undefined;
   promiseState = 'pending';
   firsttimememes = true;
   isLoading = false;
   isDisabled = true;
-
-  @ViewChild('scrollableDiv', {static: true}) scrollableDiv!: ElementRef;
   memespageToken: string | undefined;
 
-
+  // Define the constructor for the component, which initializes Firebase and loads initial images
   constructor(private renderer: Renderer2, private router: Router) {
     const firebaseConfig = {
       projectId: 'memey-e9b65',
       appId: '1:693078826607:web:25689a779fc6b129bf779a',
-      //storageBucket: 'memey-e9b65.appspot.com',]
       storageBucket: 'gs://memey-bucket',
       locationId: 'us-central',
       apiKey: 'AIzaSyCEaqo_JnonmlskbDK30QOpVo3KdA-YZR4',
@@ -41,64 +35,71 @@ export class HomepageComponent {
       messagingSenderId: '693078826607',
       measurementId: 'G-GDWWNE42TH',
     }
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const storage = getStorage(app);
     this.memesListReference = ref(storage, 'memes/');
-    //Tester
-    console.log('List reference:', this.memesListReference); 
 
+    // Load initial images
     this.loadInitialImages();
   }
 
+  // Define a method to load initial images
   async loadInitialImages() {
-    const memeBatchSize = 10;
+    const memeBatchSize = 5;
   
-    for (let i = 0; i < 5; i++) { // Load 40 memes and 10 gifs in total
+    for (let i = 0; i < 5; i++) {
       await this.loadMemes(memeBatchSize);
     }
   }
 
+  // Define a method to load memes
   async loadMemes(image_num: number) {
+    
+    let firstPage;
+
+    // Check if it's the first time loading memes and if there's a page token
     if (!this.firsttimememes && !this.memespageToken) 
       return;
-    let firstPage;
-    if (this.firsttimememes == true) 
-    {
-      //First time meme database is accessed
-      //Place all urls into firstPage
+    if (this.firsttimememes == true) {
       firstPage = await list(this.memesListReference, { maxResults: image_num });
       this.firsttimememes = false;
     }
     else {
-      //Every other time meme database is accessed
       firstPage = await list(this.memesListReference, { maxResults: image_num, pageToken: this.memespageToken});
     }
 
+    // Update the page token
     this.memespageToken = firstPage.nextPageToken;
 
+    // Process each item in the first page
     firstPage.items.forEach((itemRef: any) => {
+      // Get the download URL for each item
       getDownloadURL(itemRef)
         .then((url) => {
+          // Create a new XMLHttpRequest object
           const xhr = new XMLHttpRequest();
           xhr.responseType = 'blob';
-          /*
-            The xhr.onload function is a callback function. It's a set of instructions to the xhr 
-            object to follow when the image fetching is completed. While waiting for the image 
-            to load, your code can continue executing other tasks, and when the image is loaded 
-            (the event), the xhr.onload function is called (executed) to process the image data.
-            */
+
+          // Define the onload function for the XMLHttpRequest object
           xhr.onload = () => {
+            // Create a blob from the response
             const blob = xhr.response;
+            // Create a URL from the blob
             const imageUrl = URL.createObjectURL(blob);
-            this.memeImages.push({ title: itemRef.name, imageUrl: imageUrl, liked: false });
-            console.log('Image added:', { title: itemRef.name, imageUrl: imageUrl });
+            // Add the image to the memeImages array
+            this.memeImages.push({ title: itemRef.name, imageUrl: imageUrl });
           };
+          // Open the XMLHttpRequest object with the GET method and the URL
           xhr.open('GET', url);
+          // Send the XMLHttpRequest
           xhr.send();
         })
+        // Catch any errors that occur during the process
         .catch((error) => {
           console.error('Error fetching image:', error);
         });
+      // If the initial load is not complete, complete it and update the promise state
       if (!this.initialLoadComplete) {
         this.initialLoadComplete = Promise.resolve();
         this.promiseState = 'loaded';
@@ -108,8 +109,10 @@ export class HomepageComponent {
     console.log(this.memeImages.length)
   }
 
+  // Define a method to handle the scroll down event
   onScrollDown() {
-    if (this.promiseState == 'loaded' && !this.isLoading && this.memeImages.length < 1000) {
+    // Check if the promise state is 'loaded', if it's not loading, and if the length of the memeImages array is less than 500
+    if (this.promiseState == 'loaded' && !this.isLoading && this.memeImages.length < 500) {
       this.isLoading = true;
       this.loadMemes(30).then(() => {
         this.isLoading = false;
@@ -117,18 +120,17 @@ export class HomepageComponent {
     }
   }
 
-  toggleIcons() {
-    this.isDisabled = !this.isDisabled;
-  }
-
+  // Define a method to navigate to the about us page
   navigateToAboutUs() {
     this.router.navigate(['/about-us']);
     }
 
+  // Define a method to navigate to the dungeon page
   navigateToDungeon() {
     this.router.navigate(['/cdk-scrolling']);
   }
-  
+
+  // Define a method to reload the page
   pageReload() {
       window.location.reload();
     }

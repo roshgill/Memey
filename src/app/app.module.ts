@@ -4,27 +4,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-
-import { AppComponent } from './app.component';
-import { CdkScrollingComponent } from './cdk-scrolling/cdk-scrolling.component';
-import { TitleComponent } from './title/title.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideStorage,getStorage } from '@angular/fire/storage';
-import { AboutUsComponent } from './about-us/about-us.component';
-import { HomepageComponent } from './homepage/homepage.component';
-
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatButtonModule } from '@angular/material/button';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
+import { AppComponent } from './app.component';
+import { HomepageComponent } from './homepage/homepage.component';
+import { CdkScrollingComponent } from './cdk-scrolling/cdk-scrolling.component';
+import { AboutUsComponent } from './about-us/about-us.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CdkScrollingComponent,
-    TitleComponent,
     AboutUsComponent,
     HomepageComponent,
   ],
@@ -35,9 +28,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     NgxMasonryModule,
     ScrollingModule,
     InfiniteScrollModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatIconModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideStorage(() => getStorage())
   ],
