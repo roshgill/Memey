@@ -1,19 +1,21 @@
 .container {  
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 1fr 3fr;
   grid-template-rows: 1fr 4fr 1fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
-    "header header header"
-    "nav content ads"
-    "nav content ads";
+    "header header"
+    "nav content"
+    "nav content";
   min-height: 100vh;
 }
 
 .header { 
   grid-area: header;
   background-color: yellow;
+  display: flex;
+  flex-direction: row;
 }
 
 .nav { 
@@ -23,16 +25,10 @@
 
 .content { 
   grid-area: content;
-}
-
-.ads { 
-  grid-area: ads;
-  background-color: gray;
-}
-
-.header-flex-container {
   display: flex;
   flex-direction: row;
+  overflow: auto;
+  position: relative;
 }
 
 .div0 {
@@ -77,13 +73,7 @@
   margin-left: 55px;
 }
 
-.div5 {
-  display: inline-block;
-  margin-top: 20px;
-  margin-left: 45px;
-}
-
-.rounded-box {
+.nav-rounded-box {
   display: inline-block;
   width: 60%;  /* Adjust as needed */
   height: 65%;  /* Adjust as needed */
@@ -93,20 +83,37 @@
   margin-left: 75px;
 }
 
+.infinite-scroll-container {
+  position: absolute;
+  flex-grow: 1;
+  top: 20px;
+  left: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.meme-image {
+  height: 500px;
+  width: 625px;
+}
+
+.ads-container {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border: #F0F14E;
+  border-width: 20px;
+  width: 30%;  /* Adjust as needed */
+  height: auto; /* Adjust as needed */
+}
+
 .ad-box {
   display: inline-block;
   width: 60%;  /* Adjust as needed */
   height: 35%;  /* Adjust as needed */
   background-color: blue;
   border-radius: 20px;
-  margin-top: 20px;
-  margin-left: 75px;
-}
-
-.memes-container {
-  display: inline-block;
-  margin-top: 20px;
-  margin-left: 55px;
 }
 
 h1 {
