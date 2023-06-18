@@ -1,17 +1,17 @@
 <!-- Container div for the entire page -->
 <div class="container">
     <div class="header">
-            <button class="div0">
+            <button class="div0" (click)="pageReload()">
                 <h1>MEMEY</h1>
             </button>
-            <button class="div1">
-                <h2>HOME</h2>
+            <button class="div1" (click)="pageReload()">
+                <h2 class="line blue">HOME</h2>
             </button>
-            <button class="div2">
-                <h2>ENTER THY DUNGEON</h2>
+            <button class="div2" (click)="navigateToDungeon()">
+                <h2 class="line red">ENTER THY DUNGEON</h2>
             </button>
-            <button class="div3">
-                <h2>ABOUT US</h2>
+            <button class="div3" (click)="navigateToAboutUs()">
+                <h2 class="line green">ABOUT US</h2>
             </button>
     </div>
     <div class="nav">
@@ -25,7 +25,7 @@
             [infiniteScrollDistance]="2"
             [infiniteScrollThrottle]="50"
             (scrolled)="onScrollDown()">
-           <div *ngFor="let meme of memeImages">
+           <div *ngFor="let meme of memeImages" style="display: inline-block;">
                <img class="meme-image" [src]="meme.imageUrl">
            </div>
     </div>

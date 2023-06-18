@@ -74,7 +74,7 @@ export class HomepageComponent {
 
     // Process each item in the first page
     firstPage.items.forEach((itemRef: any) => {
-      // Get the download URL for each item
+      // Get the reference URL for each item
       getDownloadURL(itemRef)
         .then((url) => {
           // Create a new XMLHttpRequest object
@@ -85,7 +85,7 @@ export class HomepageComponent {
           xhr.onload = () => {
             // Create a blob from the response
             const blob = xhr.response;
-            // Create a URL from the blob
+            // Create a image URL from the blob
             const imageUrl = URL.createObjectURL(blob);
             // Add the image to the memeImages array
             this.memeImages.push({ title: itemRef.name, imageUrl: imageUrl });
@@ -120,18 +120,18 @@ export class HomepageComponent {
     }
   }
 
-  // Define a method to navigate to the about us page
-  navigateToAboutUs() {
-    this.router.navigate(['/about-us']);
-    }
+  // Define a method to reload the page
+  pageReload() {
+    window.location.reload();
+  }
 
   // Define a method to navigate to the dungeon page
   navigateToDungeon() {
     this.router.navigate(['/cdk-scrolling']);
   }
 
-  // Define a method to reload the page
-  pageReload() {
-      window.location.reload();
+  // Define a method to navigate to the about us page
+  navigateToAboutUs() {
+    this.router.navigate(['/about-us']);
     }
 }
