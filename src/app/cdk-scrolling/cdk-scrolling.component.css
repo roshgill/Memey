@@ -34,7 +34,7 @@
 .div1 { 
   display:block; 
   left:325px; 
-  top:55px;
+  top:75px;
   position:fixed;
   border: none;
   background: none;
@@ -46,7 +46,7 @@
 .div2 { 
   display:block; 
   left:450px; 
-  top:55px;
+  top:75px;
   position:fixed;
   border: none;
   background: none;
@@ -58,7 +58,7 @@
 .div3 { 
   display:block; 
   left:810px; 
-  top:55px;
+  top:75px;
   position:fixed; 
   border: none;
   background: none;

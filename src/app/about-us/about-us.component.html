@@ -25,6 +25,21 @@
 <div class="page" id="joinPage" data-aos="fade-right" data-aos-duration="1800">
   <h2>👋 Join Us:</h2>
   <ul class="bullet-points">
-    <li class="paragraph">Slide over to Memey and discover an internet that's all about fun! 🎈🎊</li>
+    <li class="paragraph">Subscribe to our Mailing List! 🎈🎊</li>
+
+    <form #usersEmail="ngForm" style="margin-top: 30px;" (ngSubmit)="OnSubmit(usersEmail)">
+      <div class="form-group">
+        <label style="color: white; font-weight: 400;">Email Address:</label>
+        <input type="email" #firstEmail="ngModel" [class.is-invalid]="firstEmail.invalid && firstEmail.touched" 
+        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" class="form-control" name="primaryEmail" 
+        [(ngModel)]="userModel.primaryAddress"/>
+      </div>
+      <div *ngIf="firstEmail.errors && (firstEmail.invalid || firstEmail.touched)">
+        <small class="text-danger" *ngIf="firstEmail.errors['pattern']">Please provide a valid email address</small>
+      </div>
+      <button class="submit-button" type="submit">
+        <h2>Submit</h2>
+      </button>
+    </form>    
   </ul>
 </div>
