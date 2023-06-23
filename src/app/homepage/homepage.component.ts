@@ -1,5 +1,5 @@
 // Import necessary modules from Angular and Firebase
-import { Component, OnInit, ViewChild, Renderer2, ElementRef} from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2, ElementRef, AfterViewInit} from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, list, getDownloadURL } from "firebase/storage";
 import { Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 
 // Define the HomepageComponent class
 export class HomepageComponent {
+
   // Define properties for the component
   memeImages: { title: string, imageUrl: string }[] = [];  
   memesListReference: any;
@@ -22,6 +23,9 @@ export class HomepageComponent {
   isLoading = false;
   isDisabled = true;
   memespageToken: string | undefined;
+
+  @ViewChild('scrollcontainer', { static: true }) scrollcontainer!: ElementRef;
+
 
   // Define the constructor for the component, which initializes Firebase and loads initial images
   constructor(private renderer: Renderer2, private router: Router) {
@@ -50,6 +54,18 @@ export class HomepageComponent {
   
     for (let i = 0; i < 5; i++) {
       await this.loadMemes(memeBatchSize);
+    }
+  }
+  
+  // Define a method to handle the scroll down event
+  onScroll(event: any) {
+    console.log("Scroll detected!");
+    // Check if the promise state is 'loaded', if it's not loading, and if the length of the memeImages array is less than 500
+    if (this.promiseState == 'loaded' && !this.isLoading && this.memeImages.length < 500) {
+      this.isLoading = true;
+      this.loadMemes(5).then(() => {
+        this.isLoading = false;
+      });
     }
   }
 
@@ -89,6 +105,7 @@ export class HomepageComponent {
             const imageUrl = URL.createObjectURL(blob);
             // Add the image to the memeImages array
             this.memeImages.push({ title: itemRef.name, imageUrl: imageUrl });
+            console.log(this.memeImages.length);
           };
           // Open the XMLHttpRequest object with the GET method and the URL
           xhr.open('GET', url);
@@ -109,17 +126,6 @@ export class HomepageComponent {
     console.log(this.memeImages.length)
   }
 
-  // Define a method to handle the scroll down event
-  onScrollDown() {
-    // Check if the promise state is 'loaded', if it's not loading, and if the length of the memeImages array is less than 500
-    if (this.promiseState == 'loaded' && !this.isLoading && this.memeImages.length < 500) {
-      this.isLoading = true;
-      this.loadMemes(30).then(() => {
-        this.isLoading = false;
-      });
-    }
-  }
-
   // Define a method to reload the page
   pageReload() {
     window.location.reload();
@@ -134,4 +140,18 @@ export class HomepageComponent {
   navigateToAboutUs() {
     this.router.navigate(['/about-us']);
     }
+
+  // Define a method to navigate to the about us page
+  navigateToDMCA() {
+    this.router.navigate(['/dmca']);
+    }
+  
+  navigateToTerms() {
+    this.router.navigate(['/terms-conditions']);
+    }
+
+  darkMode() {
+  this.router.navigate(['/terms-conditions']);
+  }
+
 }

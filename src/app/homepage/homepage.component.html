@@ -19,30 +19,31 @@
             <h2>NEW FEATURES COMING SOON!</h2>
         </div>
         <div class="nav-rounded-box">
-            <button class="nav-button">
+            <button class="navi-button" (click)="pageReload()">
                 <h3>Popular</h3>
             </button>
-            <button class="nav-button">
-                <h3>Sports</h3>
+            <button class="navi-button" (click)="navigateToDMCA()">
+                <h3>DMCA</h3>
             </button>
-            <button class="nav-button">
-                <h3>Dank</h3>
-            </button>
-            <button class="nav-button">
-                <h3>Dark Mode</h3>
-            </button>
-            <button class="nav-button">
-                <h3>Color Mode</h3>
+            <button class="navi-button" (click)="navigateToTerms()">
+                <h3>Terms Of Service</h3>
             </button>
         </div>
     </div>
-    <div class="content">
+    <div #scrollcontainer class="content" (scroll)="onScroll($event)">
             <div class="infinite-scroll-container" infiniteScroll
             [infiniteScrollDistance]="2"
-            [infiniteScrollThrottle]="50"
-            (scrolled)="onScrollDown()">
+            [infiniteScrollThrottle]="50">
            <div *ngFor="let meme of memeImages" style="display: inline-block;">
-               <img class="meme-image" [src]="meme.imageUrl">
+               <div class="card text-white bg-dark mb-3" style="max-width: 18r;">
+                    <div class="card-header">
+                        <h3 style="font-size: 20px;">Memey</h3>
+                    </div>
+                    <div class="card-body text-success">
+                        <img class="meme-image" [src]="meme.imageUrl">
+                    </div>   
+                </div>
            </div>
+        </div>
     </div>
 </div>
