@@ -70,7 +70,7 @@ export class CdkScrollingComponent {
 
   // Load an initial set of images when the component is created
   async loadInitialImages() {
-    const memeBatchSize = 8;
+    const memeBatchSize = 10;
     const gifBatchSize = 10;
   
     for (let i = 0; i < 5; i++) {
