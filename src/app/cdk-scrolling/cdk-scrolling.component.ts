@@ -196,9 +196,9 @@ export class CdkScrollingComponent {
   onScroll(event: any) {
     // Get the scroll position of the scrollableDiv element
     const scrollPosition = this.scrollableDiv.nativeElement.scrollTop;
-    this.shouldHideContents = scrollPosition > 70;
+    this.shouldHideContents = scrollPosition > 30;
     this.isScrolled = scrollPosition > 70;
-    this.isPaneVisible = window.scrollY > 50;
+    this.isPaneVisible = window.scrollY > 30;
     
     // Iterate over the colorDivs array and check if the div is in the view
     this.colorDivs.forEach(div => this.checkIfInView(div));

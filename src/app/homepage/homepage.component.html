@@ -20,13 +20,30 @@
         </div>
         <div class="nav-rounded-box">
             <button class="navi-button" (click)="pageReload()">
-                <h3>Popular</h3>
+                <h3>Funny</h3>
+            </button>
+            <button class="navi-button" (click)="displayDankMemes()">
+                <h3>Dank</h3>
+            </button>
+            <button class="navi-button" (click)="displayCryptoMemes()">
+                <h3>Crypto</h3>
+            </button>
+            <button class="navi-button" (click)="displaySportsMemes()">
+                <h3>Sports</h3>
             </button>
             <button class="navi-button" (click)="navigateToDMCA()">
-                <h3>DMCA</h3>
+                <h3>Color Mode</h3>
             </button>
             <button class="navi-button" (click)="navigateToTerms()">
-                <h3>Terms Of Service</h3>
+                <h3>Dark Mode</h3>
+            </button>
+        </div>
+        <div class="legal-container">
+            <button class="dmca-button" (click)="navigateToDMCA()">
+                <h4>DMCA</h4>
+            </button>
+            <button class="terms-of-service-button" (click)="navigateToTerms()">
+                <h4>Terms Of Service</h4>
             </button>
         </div>
     </div>

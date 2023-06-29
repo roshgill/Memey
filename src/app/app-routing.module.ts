@@ -10,11 +10,10 @@ import { NotSupportedComponent } from './not-supported/not-supported.component';
 const routes: Routes = [
   { path: 'cdk-scrolling', component: CdkScrollingComponent },
   { path: 'about-us', component: AboutUsComponent },
-  { path: 'home-page', component: HomepageComponent },
   { path: 'dmca', component: DmcaComponent },
   { path: 'terms-conditions', component: TermsAndConditionsComponent },
   { path: 'not-supported', component: NotSupportedComponent },
-  { path: '', redirectTo: '/home-page', pathMatch: 'full' }
+  { path: '', component: HomepageComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

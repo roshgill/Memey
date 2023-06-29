@@ -13,7 +13,8 @@
 
 .header { 
   grid-area: header;
-  background-color: yellow;
+  background-color: rgba(255, 255, 0, 0.938);
+  background-color: transparent;
   display: flex;
   flex-direction: row;
 }
@@ -21,6 +22,7 @@
 .nav { 
   grid-area: nav;
   background-color:blue;
+  background-color: transparent;
   display: flex;
   flex-direction: column;
 }
@@ -39,7 +41,7 @@
   border: none;
   margin-top: 30px;
   margin-left: 55px;
-  margin-right: 65px;
+  margin-right: 40px;
   cursor: pointer;
 }
 
@@ -47,7 +49,7 @@
   display: inline-block;
   background: none;
   border: none;
-  margin-right: 10px;
+  margin-right: 20px;
   margin-top: 55px;
   cursor: pointer;
 }
@@ -56,7 +58,7 @@
   display: inline-block;
   background: none;
   border: none;
-  margin-right: 10px;
+  margin-right: 20px;
   margin-top: 55px;
   cursor: pointer;
 }
@@ -82,14 +84,16 @@
   width: 50%;  /* Adjust as needed */
   height: 70%;  /* Adjust as needed */
   background-color: #ff0000;
+  background-color: transparent;
   border-radius: 20px;
-  margin-left: 75px;
+  margin-left: 80px;
   align-items: center;
 }
 
 .navi-button {
   display: inline-block;
   background-color: transparent;
+  border: none;
   margin-top: 30px;
   cursor: pointer;
   width: 130px;
@@ -100,7 +104,7 @@
   display: flex;
   flex-direction: row;
   background-color: none;
-  margin-top: 50px;
+  margin-top: 40px;
   margin-left: 70px;
 }
 
@@ -111,7 +115,7 @@
   cursor: pointer;
 }
 
-.terms-of-service {
+.terms-of-service-button {
   display: inline-block;
   background: none;
   border: none;

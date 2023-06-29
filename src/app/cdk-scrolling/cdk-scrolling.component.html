@@ -20,7 +20,7 @@
       </div>
     </button>
   </div>
-    <ngx-masonry [options]="masonryOptions" style="width: 500%; margin: 30; top:170px; left: 0px;" [ordered]="true">
+    <ngx-masonry [options]="masonryOptions" style="width: 500%; margin: 30; top:160px; left: 0px;" [ordered]="true">
       <div ngxMasonryItem *ngFor="let image of masonryImages;index as idx" style="width: 6.45%; position: relative; margin: 6px;">
         <div #colorDiv [ngStyle]="{'position': 'absolute', 'top': '0', 'right': '0', 'bottom': '0', 'left': '0', 'background': image.color, 'z-index': '2'}"> </div> <!-- color div -->
         <img class="image-container" [attr.src]="image.imageUrl" width="100%" style="z-index: 1">

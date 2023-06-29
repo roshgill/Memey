@@ -1,8 +1,14 @@
 // Import necessary modules from Angular and Firebase
-import { Component, OnInit, ViewChild, Renderer2, ElementRef, AfterViewInit} from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2, ElementRef, AfterViewInit, OnDestroy} from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, list, getDownloadURL } from "firebase/storage";
 import { Router } from '@angular/router';
+
+import { ActivatedRoute } from '@angular/router';
+import { filter, takeUntil } from 'rxjs/operators';
+import { NavigationEnd } from '@angular/router';
+import { Subject } from 'rxjs';
+
 
 // Define the component metadata
 @Component({
@@ -14,6 +20,8 @@ import { Router } from '@angular/router';
 // Define the HomepageComponent class
 export class HomepageComponent {
 
+  private destroy$ = new Subject<void>();
+
   // Define properties for the component
   memeImages: { title: string, imageUrl: string }[] = [];  
   memesListReference: any;
@@ -23,12 +31,13 @@ export class HomepageComponent {
   isLoading = false;
   isDisabled = true;
   memespageToken: string | undefined;
+  storage: any;
 
   @ViewChild('scrollcontainer', { static: true }) scrollcontainer!: ElementRef;
 
 
   // Define the constructor for the component, which initializes Firebase and loads initial images
-  constructor(private renderer: Renderer2, private router: Router) {
+  constructor(private renderer: Renderer2, private router: Router, private route: ActivatedRoute) {
     const firebaseConfig = {
       projectId: 'memey-e9b65',
       appId: '1:693078826607:web:25689a779fc6b129bf779a',
@@ -41,12 +50,14 @@ export class HomepageComponent {
     }
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-    const storage = getStorage(app);
-    this.memesListReference = ref(storage, 'memes/');
+    this.storage = getStorage(app);
+    
+    this.memesListReference = ref(this.storage, 'funny/');    
 
     // Load initial images
     this.loadInitialImages();
   }
+
 
   // Define a method to load initial images
   async loadInitialImages() {
@@ -54,18 +65,6 @@ export class HomepageComponent {
   
     for (let i = 0; i < 5; i++) {
       await this.loadMemes(memeBatchSize);
-    }
-  }
-  
-  // Define a method to handle the scroll down event
-  onScroll(event: any) {
-    console.log("Scroll detected!");
-    // Check if the promise state is 'loaded', if it's not loading, and if the length of the memeImages array is less than 500
-    if (this.promiseState == 'loaded' && !this.isLoading && this.memeImages.length < 500) {
-      this.isLoading = true;
-      this.loadMemes(5).then(() => {
-        this.isLoading = false;
-      });
     }
   }
 
@@ -126,9 +125,53 @@ export class HomepageComponent {
     console.log(this.memeImages.length)
   }
 
+  // Define a method to handle the scroll down event
+  onScroll(event: any) {
+    console.log("Scroll detected!");
+    // Check if the promise state is 'loaded', if it's not loading, and if the length of the memeImages array is less than 500
+    if (this.promiseState == 'loaded' && !this.isLoading && this.memeImages.length < 500) {
+      this.isLoading = true;
+      this.loadMemes(5).then(() => {
+        this.isLoading = false;
+      });
+    }
+  }
+
+  resetData() {
+    this.memeImages = [];  
+    this.memesListReference = undefined;
+    this.initialLoadComplete = undefined;
+    this.promiseState = 'pending';
+    this.firsttimememes = true;
+    this.isLoading = false;
+    this.isDisabled = true;
+    this.memespageToken = undefined;
+  }
+
   // Define a method to reload the page
   pageReload() {
     window.location.reload();
+  }
+
+  displayDankMemes() {
+    this.resetData();
+    this.memesListReference = ref(this.storage, 'dank/');
+    this.loadInitialImages()
+    this.scrollcontainer.nativeElement.scrollTop = 0;
+  }
+
+  displayCryptoMemes() {
+    this.resetData();
+    this.memesListReference = ref(this.storage, 'crypto/');
+    this.loadInitialImages()
+    this.scrollcontainer.nativeElement.scrollTop = 0;
+  }
+
+  displaySportsMemes() {
+    this.resetData();
+    this.memesListReference = ref(this.storage, 'sports/');
+    this.loadInitialImages()
+    this.scrollcontainer.nativeElement.scrollTop = 0;
   }
 
   // Define a method to navigate to the dungeon page

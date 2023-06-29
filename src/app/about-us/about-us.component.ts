@@ -1,5 +1,5 @@
 // Import necessary libraries, services and directives from Angular and Firebase
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import * as aos from 'aos';
 import { Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { getFirestore } from "firebase/firestore";
 })
 
 // Define the class for the Angular component
-export class AboutUsComponent implements OnInit {
+export class AboutUsComponent implements AfterViewInit {
 
   // 2-way binding between userModel and form input field
   public userModel = { 
@@ -40,7 +40,7 @@ export class AboutUsComponent implements OnInit {
     this.db = getFirestore(app);
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     aos.init();
   }
 
@@ -65,13 +65,5 @@ export class AboutUsComponent implements OnInit {
 
   navigateToHome() {
     this.router.navigate(['/home-page']);
-  }
-
-  navigateToAboutUs() {
-    this.router.navigate(['/about-us']);
-  }
-  
-  pageReload() {
-      window.location.reload();
   }
 }
