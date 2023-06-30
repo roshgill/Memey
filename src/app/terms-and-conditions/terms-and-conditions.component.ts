@@ -13,6 +13,8 @@ export class TermsAndConditionsComponent {
   }
 
   navigateToHome() {
-    this.router.navigate(['/home-page']);
+    this.router.navigate(['']);
   }
+  
+
 }

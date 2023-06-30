@@ -11,9 +11,8 @@ export class DmcaComponent {
 
   constructor(private router: Router) {
   }
-
+  
   navigateToHome() {
-    this.router.navigate(['/home-page']);
+    this.router.navigate(['']);
   }
-
 }

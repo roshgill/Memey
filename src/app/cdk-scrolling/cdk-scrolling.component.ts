@@ -2,7 +2,7 @@
 import { Component, ViewChild, Renderer2, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { NgxMasonryOptions } from 'ngx-masonry';
 import { initializeApp } from 'firebase/app';
-import { getStorage, ref, list, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, list, getDownloadURL, getMetadata } from "firebase/storage";
 import { Router } from '@angular/router';
 
 // Define the Angular component, including its selector, CSS file and HTML template
@@ -62,7 +62,7 @@ export class CdkScrollingComponent {
 
   const app = initializeApp(firebaseConfig);
   const storage = getStorage(app);
-  this.memesListReference = ref(storage, 'memes/');
+  this.memesListReference = ref(storage, 'funny/');
   this.gifsListReference = ref(storage, 'gifs/');
 
   this.loadInitialImages();
@@ -304,9 +304,8 @@ export class CdkScrollingComponent {
     this.observers.forEach(obs => obs.disconnect());
   }
 
-  // Navigation functions
   navigateToHome() {
-    this.router.navigate(['/home-page']);
+    this.router.navigate(['']);
   }
 
   navigateToAboutUs() {

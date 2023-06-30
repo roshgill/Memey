@@ -17,6 +17,7 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { DmcaComponent } from './dmca/dmca.component';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { NotSupportedComponent } from './not-supported/not-supported.component';
+import { ThemeDirective } from './theme.directive';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { NotSupportedComponent } from './not-supported/not-supported.component';
     DmcaComponent,
     TermsAndConditionsComponent,
     NotSupportedComponent,
+    ThemeDirective,
   ],
   imports: [
     BrowserModule,

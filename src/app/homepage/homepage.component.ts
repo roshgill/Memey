@@ -9,6 +9,8 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { NavigationEnd } from '@angular/router';
 import { Subject } from 'rxjs';
 
+import { ThemeService } from '../theme.service';
+
 
 // Define the component metadata
 @Component({
@@ -37,7 +39,7 @@ export class HomepageComponent {
 
 
   // Define the constructor for the component, which initializes Firebase and loads initial images
-  constructor(private renderer: Renderer2, private router: Router, private route: ActivatedRoute) {
+  constructor(private renderer: Renderer2, private router: Router, private route: ActivatedRoute, private themeService: ThemeService) {
     const firebaseConfig = {
       projectId: 'memey-e9b65',
       appId: '1:693078826607:web:25689a779fc6b129bf779a',
@@ -174,6 +176,14 @@ export class HomepageComponent {
     this.scrollcontainer.nativeElement.scrollTop = 0;
   }
 
+  enableDarkTheme() {
+    this.themeService.enableDarkTheme();
+  }
+
+  enableColorTheme() {
+    this.themeService.enableColorTheme();
+  }
+
   // Define a method to navigate to the dungeon page
   navigateToDungeon() {
     this.router.navigate(['/cdk-scrolling']);
@@ -192,9 +202,4 @@ export class HomepageComponent {
   navigateToTerms() {
     this.router.navigate(['/terms-conditions']);
     }
-
-  darkMode() {
-  this.router.navigate(['/terms-conditions']);
-  }
-
 }

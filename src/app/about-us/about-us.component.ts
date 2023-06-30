@@ -64,6 +64,6 @@ export class AboutUsComponent implements AfterViewInit {
   }
 
   navigateToHome() {
-    this.router.navigate(['/home-page']);
+    this.router.navigate(['']);
   }
 }

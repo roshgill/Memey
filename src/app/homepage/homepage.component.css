@@ -14,7 +14,6 @@
 .header { 
   grid-area: header;
   background-color: rgba(255, 255, 0, 0.938);
-  background-color: transparent;
   display: flex;
   flex-direction: row;
 }
@@ -22,7 +21,6 @@
 .nav { 
   grid-area: nav;
   background-color:blue;
-  background-color: transparent;
   display: flex;
   flex-direction: column;
 }
@@ -84,7 +82,6 @@
   width: 50%;  /* Adjust as needed */
   height: 70%;  /* Adjust as needed */
   background-color: #ff0000;
-  background-color: transparent;
   border-radius: 20px;
   margin-left: 80px;
   align-items: center;
@@ -92,8 +89,7 @@
 
 .navi-button {
   display: inline-block;
-  background-color: transparent;
-  border: none;
+  background-color: black;
   margin-top: 30px;
   cursor: pointer;
   width: 130px;
