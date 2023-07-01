@@ -1,7 +1,7 @@
 .container1 {  
   display: grid;
-  grid-template-columns: 1fr 3fr;
-  grid-template-rows: 1fr 4fr 1fr;
+  grid-template-columns: 310px 1fr;
+  grid-template-rows: 0.5fr 4fr 1fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
@@ -14,6 +14,7 @@
 .header { 
   grid-area: header;
   background-color: rgba(255, 255, 0, 0.938);
+  background-color: #FCCB06;
   display: flex;
   flex-direction: row;
 }
@@ -38,8 +39,9 @@
   background: none;
   border: none;
   margin-top: 30px;
+  margin-bottom: 10px;
   margin-left: 55px;
-  margin-right: 40px;
+  margin-right: 45px;
   cursor: pointer;
 }
 
@@ -47,6 +49,7 @@
   display: inline-block;
   background: none;
   border: none;
+  margin-bottom: 10px;
   margin-right: 20px;
   margin-top: 55px;
   cursor: pointer;
@@ -56,6 +59,7 @@
   display: inline-block;
   background: none;
   border: none;
+  margin-bottom: 10px;
   margin-right: 20px;
   margin-top: 55px;
   cursor: pointer;
@@ -66,13 +70,14 @@
   background: none;
   border: none;
   margin-top: 55px;
+  margin-bottom: 10px;
   cursor: pointer;
 }
 
 .div4 {
   display: inline-block;
   margin-top: 20px;
-  margin-left: 55px;
+  margin-left: 65px;
   margin-bottom: 20px;
 }
 
@@ -83,7 +88,7 @@
   height: 70%;  /* Adjust as needed */
   background-color: #ff0000;
   border-radius: 20px;
-  margin-left: 80px;
+  margin-left: 85px;
   align-items: center;
 }
 
@@ -100,8 +105,8 @@
   display: flex;
   flex-direction: row;
   background-color: none;
-  margin-top: 40px;
-  margin-left: 70px;
+  margin-top: 50px;
+  margin-left: 64px;
 }
 
 .dmca-button {
@@ -121,15 +126,15 @@
 .infinite-scroll-container {
   position: absolute;
   top: 10px;
-  left: 10px;
+  left: 0px;
   width: 100%;
   height: 100%;
 }
 
 .meme-image {
   height: 100%;
-  width: 600px;
-  margin-bottom: 35px;
+  width: 610px;
+  margin-bottom: 20px;
 }
 
 .ad-box {
@@ -202,21 +207,6 @@ h4
   padding: 0;
 }
 
-
-@media (max-width: 975px) {
-  .container {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 4fr;
-
-    grid-template-areas: 
-      "header"
-      "content"
-  }
-  .nav {
-    display: none;
-  }
-}
-
   .line:hover {
     cursor: url('/assets/cursor4.png'), auto;
   }
@@ -247,9 +237,8 @@ h4
   }
   
   .line.green::before {
-    background-color: #F0F14E; /* Blue color */
+    background-color: orange; /* Blue color */
   }
-  
   
   .line:hover::before {
     width: 0%;
@@ -276,7 +265,7 @@ h4
   
   
   .line.green::after {
-    background-color: #F0F14E; /* Blue color */
+    background-color: orange; /* Blue color */
   }
   
   .line:hover::after {

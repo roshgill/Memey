@@ -15,6 +15,4 @@ export class TermsAndConditionsComponent {
   navigateToHome() {
     this.router.navigate(['']);
   }
-  
-
 }

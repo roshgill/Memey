@@ -16,7 +16,7 @@
     </div>
     <div appTheme class="nav">
         <div class="div4">
-            <h2>NEW FEATURES COMING SOON!</h2>
+            <h2 style="font-size: 24px;">NEW FEATURES COMING SOON!</h2>
         </div>
         <div appTheme class="nav-rounded-box">
             <button appTheme class="navi-button" (click)="pageReload()">
@@ -50,14 +50,15 @@
     <div #scrollcontainer class="content" (scroll)="onScroll($event)">
             <div class="infinite-scroll-container" infiniteScroll
             [infiniteScrollDistance]="2"
-            [infiniteScrollThrottle]="50">
+            [infiniteScrollThrottle]="50"
+            style="margin-left: 13px;">
            <div *ngFor="let meme of memeImages" style="display: inline-block;">
-               <div class="card text-white bg-dark mb-3" style="max-width: 18r;">
-                    <div class="card-header">
+               <div class="card text-white bg-dark mb-3" style="max-width: 18r; padding-bottom: 0px;">
+                    <div class="card-header" style="padding-top: 2px; padding-bottom: 1px;">
                         <h3 style="font-size: 20px;">Memey</h3>
-                        <h4>Beta User: ANONY872</h4>
+                        <h4 style="font-size: 12px; padding-top: 2px;">Beta User: {{meme.betaUsername}}</h4>
                     </div>
-                    <div class="card-body text-success">
+                    <div class="card-body text-success" style="padding-top: 10px; padding-bottom: 0px;">
                         <img class="meme-image" [src]="meme.imageUrl">
                     </div>   
                 </div>

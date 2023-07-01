@@ -41,8 +41,11 @@ export class AboutUsComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    aos.init();
+    setTimeout(() => {
+      aos.init();
+    }, 300); // delay of 500 milliseconds
   }
+  
 
   // Sends user email address to Firestore database
   async OnSubmit(usersEmail: NgForm) {

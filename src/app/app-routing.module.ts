@@ -8,7 +8,7 @@ import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-co
 import { NotSupportedComponent } from './not-supported/not-supported.component';
 
 const routes: Routes = [
-  { path: 'cdk-scrolling', component: CdkScrollingComponent },
+  { path: 'dungeon', component: CdkScrollingComponent },
   { path: 'about-us', component: AboutUsComponent },
   { path: 'dmca', component: DmcaComponent },
   { path: 'terms-conditions', component: TermsAndConditionsComponent },

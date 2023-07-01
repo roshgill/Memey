@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ThemeService {
   // Make darkTheme a BehaviorSubject, initially set it to false.
-  private darkTheme = new BehaviorSubject<boolean>(false);
+  private darkTheme = new BehaviorSubject<boolean>(true);
 
   constructor() {
     // Check for a saved preference in local storage on startup

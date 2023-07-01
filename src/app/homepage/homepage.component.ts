@@ -1,7 +1,7 @@
 // Import necessary modules from Angular and Firebase
 import { Component, OnInit, ViewChild, Renderer2, ElementRef, AfterViewInit, OnDestroy} from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { getStorage, ref, list, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, list, getDownloadURL, getMetadata } from "firebase/storage";
 import { Router } from '@angular/router';
 
 import { ActivatedRoute } from '@angular/router';
@@ -25,7 +25,7 @@ export class HomepageComponent {
   private destroy$ = new Subject<void>();
 
   // Define properties for the component
-  memeImages: { title: string, imageUrl: string }[] = [];  
+  memeImages: { title: string, imageUrl: string, betaUsername: string }[] = [];  
   memesListReference: any;
   initialLoadComplete: Promise<void> | undefined;
   promiseState = 'pending';
@@ -105,9 +105,17 @@ export class HomepageComponent {
             // Create a image URL from the blob
             const imageUrl = URL.createObjectURL(blob);
             // Add the image to the memeImages array
-            this.memeImages.push({ title: itemRef.name, imageUrl: imageUrl });
-            console.log(this.memeImages.length);
+            getMetadata(itemRef)
+            .then((metadata) => {
+              let betaUser = metadata.customMetadata ? metadata.customMetadata['beta-username'] : '';
+              console.log(betaUser);
+              this.memeImages.push({ title: itemRef.name, imageUrl: imageUrl, betaUsername: betaUser });
+            })            
+            .catch((error) => {
+              console.error('Error fetching metadata:', error);
+            });
           };
+
           // Open the XMLHttpRequest object with the GET method and the URL
           xhr.open('GET', url);
           // Send the XMLHttpRequest
@@ -186,7 +194,7 @@ export class HomepageComponent {
 
   // Define a method to navigate to the dungeon page
   navigateToDungeon() {
-    this.router.navigate(['/cdk-scrolling']);
+    this.router.navigate(['/dungeon']);
   }
 
   // Define a method to navigate to the about us page

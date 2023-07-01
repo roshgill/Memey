@@ -23,7 +23,7 @@ export class CdkScrollingComponent {
   };
 
   // Initialize various variables to manage image fetching and displaying
-  masonryImages: { title: string, imageUrl: string, color: string }[] = [];  
+  masonryImages: { title: string, imageUrl: string, color: string, betaUsername: string }[] = [];  
   colors = ['#ED3833', '#1645F5', '#6DED8A', '#F0F14E', '#FF5F85'];
   
   memesListReference: any;
@@ -119,9 +119,16 @@ export class CdkScrollingComponent {
           // Create an image URL from the blob
           const imageUrl = URL.createObjectURL(blob);
           // Add the image to the masonryImages array
-          this.masonryImages.push({ title: itemRef.name, imageUrl: imageUrl, color: this.getRandomColor() });
-          console.log('Image added:', { title: itemRef.name, imageUrl: imageUrl });
-        };
+          getMetadata(itemRef)
+          .then((metadata) => {
+            let betaUser = metadata.customMetadata ? metadata.customMetadata['beta-username'] : '';
+            console.log(betaUser);
+            this.masonryImages.push({ title: itemRef.name, imageUrl: imageUrl, color: this.getRandomColor(), betaUsername: betaUser });
+          })            
+          .catch((error) => {
+            console.error('Error fetching metadata:', error);
+          });
+        }
         // Open the XMLHttpRequest object with the GET method and the Google Cloud reference URL
         xhr.open('GET', url);
         // Send the XMLHttpRequest
@@ -177,9 +184,17 @@ export class CdkScrollingComponent {
             // Create an image URL from the blob
             const imageUrl = URL.createObjectURL(blob);
             // Add the image to the masonryImages array
-            this.masonryImages.push({ title: itemRef.name, imageUrl: imageUrl, color: this.getRandomColor() });
-            console.log('Image added:', { title: itemRef.name, imageUrl: imageUrl });
-          };
+            getMetadata(itemRef)
+            .then((metadata) => {
+              let betaUser = metadata.customMetadata ? metadata.customMetadata['beta-username'] : '';
+              console.log(betaUser);
+              this.masonryImages.push({ title: itemRef.name, imageUrl: imageUrl, color: this.getRandomColor(), betaUsername: betaUser });
+            })            
+            .catch((error) => {
+              console.error('Error fetching metadata:', error);
+            });
+          }
+
           // Open the XMLHttpRequest object with the GET method and the Google Cloud reference URL
           xhr.open('GET', url);
           // Send the XMLHttpRequest
