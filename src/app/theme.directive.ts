@@ -53,7 +53,7 @@ export class ThemeDirective implements OnInit, OnDestroy {
       // Apply color theme colors
       switch (className) {
         case 'header':
-          this.el.nativeElement.style.backgroundColor = 'rgba(255,255,0,0.938)';
+          this.el.nativeElement.style.backgroundColor = '#FFBF00';
           break;
         case 'nav':
           this.el.nativeElement.style.backgroundColor = 'blue';

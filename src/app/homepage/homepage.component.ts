@@ -1,13 +1,14 @@
 // Import necessary modules from Angular and Firebase
-import { Component, OnInit, ViewChild, Renderer2, ElementRef, AfterViewInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2, ElementRef, AfterViewInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, list, getDownloadURL, getMetadata } from "firebase/storage";
 import { Router } from '@angular/router';
 
 import { ActivatedRoute } from '@angular/router';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, mergeMap, switchMap, takeUntil } from 'rxjs/operators';
 import { NavigationEnd } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, of, timer } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 
 import { ThemeService } from '../theme.service';
 
@@ -22,6 +23,30 @@ import { ThemeService } from '../theme.service';
 // Define the HomepageComponent class
 export class HomepageComponent {
 
+  tweetList: string[] = [
+    'https://twitter.com/cb_doge/status/1678399673407504386?ref_src=twsrc%5Etfw',
+    'https://twitter.com/DeadpoolUpdate/status/1678427696580231168',
+    'https://twitter.com/PokemonGoApp/status/1678143240694816768',
+    'https://twitter.com/Mlickles/status/1678208813684465667',
+    'https://twitter.com/PokemanZ0N6/status/1678468426950483968',
+    'https://twitter.com/BillyM2k/status/1678439033641529344',
+    'https://twitter.com/MattWallace888/status/1678098475915919360',
+    'https://twitter.com/upblissed/status/1678250341417009153',
+    'https://twitter.com/upblissed/status/1678135296150347779',
+    'https://twitter.com/DankMemesGlobal/status/1246868153683939334',
+    'https://twitter.com/DankMemesGlobal/status/1338158985640255493',
+    'https://twitter.com/theMemesBot/status/1672283558294196224',
+    'https://twitter.com/buitengebieden/status/1678454914484248599',
+    'https://twitter.com/Slakonbothsides/status/1678040395580686336',
+    'https://twitter.com/contextdogs/status/1678095092727308290',
+    'https://twitter.com/barstoolsports/status/1678130723717365762',
+    'https://twitter.com/BillyM2k/status/1677737855827988480'
+  ];
+
+  public selectedTweet: string | undefined;
+  private subscription!: Subscription;
+  reloadIntervalId: any;
+
   private destroy$ = new Subject<void>();
 
   // Define properties for the component
@@ -34,12 +59,10 @@ export class HomepageComponent {
   isDisabled = true;
   memespageToken: string | undefined;
   storage: any;
-
   @ViewChild('scrollcontainer', { static: true }) scrollcontainer!: ElementRef;
 
-
   // Define the constructor for the component, which initializes Firebase and loads initial images
-  constructor(private renderer: Renderer2, private router: Router, private route: ActivatedRoute, private themeService: ThemeService) {
+  constructor(private renderer: Renderer2, private router: Router, private route: ActivatedRoute, private themeService: ThemeService, private changeDetector: ChangeDetectorRef) {
     const firebaseConfig = {
       projectId: 'memey-e9b65',
       appId: '1:693078826607:web:25689a779fc6b129bf779a',
@@ -53,13 +76,38 @@ export class HomepageComponent {
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     this.storage = getStorage(app);
-    
+  
     this.memesListReference = ref(this.storage, 'funny/');    
 
     // Load initial images
     this.loadInitialImages();
   }
 
+  ngOnInit() {
+    this.randomizeTweet();
+  
+    const reloadInterval = 5;
+    this.reloadIntervalId = setInterval(() => { this.randomizeTweet() }, reloadInterval * 1000);
+  }
+  
+  ngOnDestroy() {
+    if(this.reloadIntervalId) {
+      clearInterval(this.reloadIntervalId);
+    }
+  }
+
+  async randomizeTweet() {
+    let randomIndex = Math.floor(Math.random() * this.tweetList.length);
+    console.log("It Works");
+    this.selectedTweet = this.tweetList[randomIndex];
+
+    this.changeDetector.detectChanges();
+
+    if ((window as any).twttr && (window as any).twttr.widgets) {
+      (window as any).twttr.widgets.load();
+    }
+  }
+  
 
   // Define a method to load initial images
   async loadInitialImages() {
@@ -166,6 +214,13 @@ export class HomepageComponent {
   displayDankMemes() {
     this.resetData();
     this.memesListReference = ref(this.storage, 'dank/');
+    this.loadInitialImages()
+    this.scrollcontainer.nativeElement.scrollTop = 0;
+  }
+
+  displayGamingMemes() {
+    this.resetData();
+    this.memesListReference = ref(this.storage, 'gaming/');
     this.loadInitialImages()
     this.scrollcontainer.nativeElement.scrollTop = 0;
   }

@@ -149,7 +149,7 @@ h2
 }
 
 .line.green::before {
-  background-color: orange; /* Orange color */
+  background-color: yellow; /* Orange color */
 }
 
 
@@ -178,7 +178,7 @@ h2
 
 
 .line.green::after {
-  background-color: orange; /* Orange color */
+  background-color: yellow; /* Orange color */
 }
 
 .line:hover::after {

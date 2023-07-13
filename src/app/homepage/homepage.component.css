@@ -13,7 +13,7 @@
 
 .header { 
   grid-area: header;
-  background-color: #ffc510;
+  background-color:#FFBF00;
   display: flex;
   flex-direction: row;
 }
@@ -31,6 +31,24 @@
   flex-direction: row;
   overflow: auto;
   position: relative;
+}
+
+.trending {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+.fade-in {
+  width: 350px;
+  height: auto;
+  animation-name: fadeIn;
+  animation-duration: 2s;
 }
 
 .div0 {
@@ -80,13 +98,19 @@
   margin-bottom: 20px;
 }
 
+.div5 {
+  display: inline-block;
+  margin-bottom: 3px;
+  margin-right: 80px;
+}
+
 .nav-rounded-box {
   display: flex;
   flex-direction: column;
   width: 50%;  /* Adjust as needed */
   height: 70%;  /* Adjust as needed */
   background-color: #ff0000;
-  border-radius: 20px;
+  border-radius: 10px;
   margin-left: 85px;
   align-items: center;
 }
@@ -94,10 +118,11 @@
 .navi-button {
   display: inline-block;
   background-color: black;
-  margin-top: 30px;
+  margin-top: 25px;
   cursor: pointer;
   width: 130px;
   height: auto;
+  border-radius: 2px;
 }
 
 .legal-container {
@@ -136,74 +161,35 @@
   margin-bottom: 20px;
 }
 
-.ad-box {
-  position: absolute;
-  display: inline-block;
-  width: 60%;  /* Adjust as needed */
-  height: 35%;  /* Adjust as needed */
-  background-color: blue;
-  border-radius: 20px;
+.heading-style {
+  font-family: "Arial Black", Gadget, sans-serif;
+  letter-spacing: -0.6px;
+  word-spacing: -1px;
+  color: white;
+  font-weight: 400;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
 }
 
-h1 {
-  font-family: "Arial Black", Gadget, sans-serif;
+h1.heading-style {
   font-size: 60px;
   letter-spacing: -6.5px;
-  color: #FFFFFF;
-  font-weight: 400;
-  font-style: normal;
-  font-variant: normal;
-  text-transform: uppercase;
-  margin: 0;
-  padding: 0;
 }
 
-h2
-{
-  font-family: "Arial Black", Gadget, sans-serif;
+h2.heading-style {
   font-size: 27px;
-  letter-spacing: -0.6px;
-  word-spacing: -1px;
-  color: #FFFFFF;
-  font-weight: 400;
-  text-decoration: none;
-  font-style: normal;
-  font-variant: normal;
-  text-transform: uppercase;
-  margin: 0;
-  padding: 0;
 }
 
-h3
-{
-  font-family: "Arial Black", Gadget, sans-serif;
+h3.heading-style {
   font-size: 18px;
-  letter-spacing: -0.6px;
-  word-spacing: -1px;
-  color: #FFFFFF;
-  font-weight: 400;
-  text-decoration: none;
-  font-style: normal;
-  font-variant: normal;
-  text-transform: uppercase;
-  margin: 0;
-  padding: 0;
 }
 
-h4
-{
-  font-family: "Arial Black", Gadget, sans-serif;
+h4.heading-style {
   font-size: 14px;
-  letter-spacing: -0.6px;
-  word-spacing: -1px;
-  color: #FFFFFF;
-  font-weight: 400;
-  text-decoration: none;
-  font-style: normal;
-  font-variant: normal;
-  text-transform: uppercase;
-  margin: 0;
-  padding: 0;
 }
 
   .line:hover {
@@ -236,7 +222,7 @@ h4
   }
   
   .line.green::before {
-    background-color: orange; /* Blue color */
+    background-color: yellow; /* Blue color */
   }
   
   .line:hover::before {
@@ -264,7 +250,7 @@ h4
   
   
   .line.green::after {
-    background-color: orange; /* Blue color */
+    background-color: yellow; /* Blue color */
   }
   
   .line:hover::after {
