@@ -1,19 +1,20 @@
 <!-- Container div for the entire page -->
 <div class="container1">
     <div appTheme class="header">
-            <button class="div0" (click)="pageReload()">
+            <button class="header-divs div0" (click)="pageReload()">
                 <h1 class="heading-style">MEMEY</h1>
             </button>
-            <button class="div1" (click)="pageReload()">
+            <button class="header-divs div1" (click)="pageReload()">
                 <h2 class="heading-style line blue">HOME</h2>
             </button>
-            <button class="div2" (click)="navigateToDungeon()">
+            <button class="header-divs div2" (click)="navigateToDungeon()">
                 <h2 class="heading-style line red">ENTER THY DUNGEON</h2>
             </button>
-            <button class="div3" (click)="navigateToAboutUs()">
+            <button class="header-divs div3" (click)="navigateToAboutUs()">
                 <h2 class="heading-style line green">ABOUT US</h2>
             </button>
     </div>
+
     <div appTheme class="nav">
         <div class="div4">
             <h2 class="heading-style" style="font-size: 24px;">NEW FEATURES COMING SOON!</h2>
@@ -53,8 +54,7 @@
     <div #scrollcontainer class="content" (scroll)="onScroll($event)">
         <div class="infinite-scroll-container" infiniteScroll
             [infiniteScrollDistance]="2"
-            [infiniteScrollThrottle]="50"
-            style="margin-left: 13px;">
+            [infiniteScrollThrottle]="50">
            <div *ngFor="let meme of memeImages" style="display: inline-block;">
                <div class="card text-white bg-dark mb-3" style="max-width: 18r; padding-bottom: 0px;">
                     <div class="card-header" style="padding-top: 2px; padding-bottom: 1px;">
@@ -68,11 +68,16 @@
            </div>
         </div>
         <div class="trending">
-            <div class="div5">
-                <h2 class="heading-style" style="font-size: 24px; margin-right: 130px;">Trending</h2>
+            <div style="position: static;">
+                <h2 class="heading-style" style="font-size: 24px">Trending</h2>
             </div>
             <div class="fade-in">
-                <blockquote class="twitter-tweet" data-lang="en" data-theme="dark"> <a [href]="selectedTweet"></a></blockquote><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <div>
+                    <blockquote class="twitter-tweet" data-lang="en" data-theme="dark"> <a [href]="selectedTweet"></a></blockquote><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+                <div>
+                    <blockquote class="twitter-tweet" data-lang="en" data-theme="dark"> <a [href]="selectedTweet"></a></blockquote><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
             </div>
         </div>
     </div>

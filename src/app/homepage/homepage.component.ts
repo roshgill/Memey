@@ -1,5 +1,5 @@
 // Import necessary modules from Angular and Firebase
-import { Component, OnInit, ViewChild, Renderer2, ElementRef, AfterViewInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2, ElementRef, AfterViewInit, OnDestroy, ChangeDetectorRef, HostBinding, HostListener} from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, list, getDownloadURL, getMetadata } from "firebase/storage";
 import { Router } from '@angular/router';
@@ -61,8 +61,11 @@ export class HomepageComponent {
   storage: any;
   @ViewChild('scrollcontainer', { static: true }) scrollcontainer!: ElementRef;
 
+  trending: HTMLElement | null = null;
+
+
   // Define the constructor for the component, which initializes Firebase and loads initial images
-  constructor(private renderer: Renderer2, private router: Router, private route: ActivatedRoute, private themeService: ThemeService, private changeDetector: ChangeDetectorRef) {
+  constructor(private renderer: Renderer2, private router: Router, private route: ActivatedRoute, private themeService: ThemeService, private changeDetector: ChangeDetectorRef, private elementRef: ElementRef) {
     const firebaseConfig = {
       projectId: 'memey-e9b65',
       appId: '1:693078826607:web:25689a779fc6b129bf779a',
@@ -88,7 +91,29 @@ export class HomepageComponent {
   
     const reloadInterval = 5;
     this.reloadIntervalId = setInterval(() => { this.randomizeTweet() }, reloadInterval * 1000);
+
+
+    // this.trending = document.querySelector('#trending');
+    // this.addScrollEventListener();
   }
+
+  // addScrollEventListener() {
+  //   window.addEventListener('scroll', () => {
+
+  //     let screenheight = window.innerHeight;
+  //     let stickyStart = screenheight * 0.7;
+      
+  //     if (window.pageYOffset > stickyStart) {
+  //       this.trending?.style.setProperty('position', 'static');
+  //       this.trending?.style.setProperty('top', '0');
+  //       console.log("Sticky Works");
+  //     }
+  //     else {
+  //       this.trending?.style.setProperty('position', 'relative');
+  //     }
+  //     console.log("Sticky Works");
+  //   });
+  // }
   
   ngOnDestroy() {
     if(this.reloadIntervalId) {
@@ -107,7 +132,6 @@ export class HomepageComponent {
       (window as any).twttr.widgets.load();
     }
   }
-  
 
   // Define a method to load initial images
   async loadInitialImages() {
@@ -156,7 +180,6 @@ export class HomepageComponent {
             getMetadata(itemRef)
             .then((metadata) => {
               let betaUser = metadata.customMetadata ? metadata.customMetadata['beta-username'] : '';
-              console.log(betaUser);
               this.memeImages.push({ title: itemRef.name, imageUrl: imageUrl, betaUsername: betaUser });
             })            
             .catch((error) => {
@@ -179,13 +202,10 @@ export class HomepageComponent {
         this.promiseState = 'loaded';
       }
     });
-    console.log('Images are being fetched and processed');
-    console.log(this.memeImages.length)
   }
 
   // Define a method to handle the scroll down event
   onScroll(event: any) {
-    console.log("Scroll detected!");
     // Check if the promise state is 'loaded', if it's not loading, and if the length of the memeImages array is less than 500
     if (this.promiseState == 'loaded' && !this.isLoading && this.memeImages.length < 500) {
       this.isLoading = true;

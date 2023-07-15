@@ -1,14 +1,12 @@
 .container1 {  
   display: grid;
-  grid-template-columns: 310px 1fr;
-  grid-template-rows: 0.5fr 4fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
+  grid-template-columns: minmax(0, 310px) 1fr;
+  grid-template-rows: 0.6fr 4fr;
+  gap: 0px 5px;
   grid-template-areas:
     "header header"
-    "nav content"
-    "nav content";
-  min-height: 100vh;
+    "nav content";;
+  height: 100vh; /* Or whatever height you want */
 }
 
 .header { 
@@ -23,95 +21,63 @@
   background-color:blue;
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .content { 
   grid-area: content;
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
   overflow: auto;
-  position: relative;
+  overflow-x: hidden;
 }
 
-.trending {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-@keyframes fadeIn {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
-}
-
-.fade-in {
-  width: 350px;
-  height: auto;
-  animation-name: fadeIn;
-  animation-duration: 2s;
+.header-divs {
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .div0 {
   display: inline-block;
-  background: none;
-  border: none;
-  margin-top: 30px;
-  margin-bottom: 10px;
+  margin-top: 20px;
   margin-left: 55px;
   margin-right: 45px;
-  cursor: pointer;
 }
 
 .div1 {
   display: inline-block;
-  background: none;
-  border: none;
-  margin-bottom: 10px;
+  margin-top: 35px;
   margin-right: 20px;
-  margin-top: 55px;
-  cursor: pointer;
 }
 
 .div2 {
   display: inline-block;
-  background: none;
-  border: none;
-  margin-bottom: 10px;
+  margin-top: 35px;
   margin-right: 20px;
-  margin-top: 55px;
-  cursor: pointer;
 }
 
 .div3 {
   display: inline-block;
-  background: none;
-  border: none;
-  margin-top: 55px;
-  margin-bottom: 10px;
-  cursor: pointer;
+  margin-top: 35px;
 }
 
 .div4 {
   display: inline-block;
-  margin-top: 20px;
   margin-left: 65px;
-  margin-bottom: 20px;
-}
-
-.div5 {
-  display: inline-block;
-  margin-bottom: 3px;
-  margin-right: 80px;
+  margin-top: -10px;
 }
 
 .nav-rounded-box {
   display: flex;
   flex-direction: column;
-  width: 50%;  /* Adjust as needed */
-  height: 70%;  /* Adjust as needed */
+  width: 50%;
+  height: 70%; 
   background-color: #ff0000;
-  border-radius: 10px;
-  margin-left: 85px;
+  border-radius: 12px;
+  margin-left: 25px; 
   align-items: center;
 }
 
@@ -119,18 +85,18 @@
   display: inline-block;
   background-color: black;
   margin-top: 25px;
-  cursor: pointer;
   width: 130px;
   height: auto;
   border-radius: 2px;
+  cursor: pointer;
 }
 
 .legal-container {
   display: flex;
   flex-direction: row;
   background-color: none;
-  margin-top: 50px;
-  margin-left: 64px;
+  margin-top: 20px;
+  margin-left: 25px; 
 }
 
 .dmca-button {
@@ -148,11 +114,10 @@
 }
 
 .infinite-scroll-container {
-  position: absolute;
-  top: 10px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
+  position: relative;
+  width: 630px;
+  margin-top: 15px;
+  margin-left: 5px;
 }
 
 .meme-image {
@@ -161,18 +126,41 @@
   margin-bottom: 20px;
 }
 
+.trending {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 1.5%;
+  margin-left: 6%;
+}
+
+.fade-in {
+  width: 370px;
+  margin-top: 2.5px;
+  animation-name: fadeIn;
+  animation-duration: 2s;
+
+  position: sticky;
+  bottom: 40px;
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
 .heading-style {
+  font-style: normal;
   font-family: "Arial Black", Gadget, sans-serif;
+  font-weight: 400;
+  font-variant: normal;
   letter-spacing: -0.6px;
   word-spacing: -1px;
   color: white;
-  font-weight: 400;
   text-decoration: none;
-  font-style: normal;
-  font-variant: normal;
   text-transform: uppercase;
-  margin: 0;
-  padding: 0;
+
 }
 
 h1.heading-style {
