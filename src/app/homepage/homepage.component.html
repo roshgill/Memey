@@ -13,6 +13,9 @@
             <button class="header-divs div3" (click)="navigateToAboutUs()">
                 <h2 class="heading-style line green">ABOUT US</h2>
             </button>
+            <button class="header-divs div5" (click)="navigateToAboutUs()">
+                <h2 class="heading-style">Digitalverse</h2>
+            </button>
     </div>
 
     <div appTheme class="nav">
@@ -67,16 +70,13 @@
                 </div>
            </div>
         </div>
-        <div class="trending">
-            <div style="position: static;">
-                <h2 class="heading-style" style="font-size: 24px">Trending</h2>
-            </div>
+        <div #trendingContainer class="trending">
             <div class="fade-in">
-                <div>
-                    <blockquote class="twitter-tweet" data-lang="en" data-theme="dark"> <a [href]="selectedTweet"></a></blockquote><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <div #tweetContainer0>
+                    <blockquote class="twitter-tweet" data-lang="en" data-theme="dark"> <a [href]="selectedTweet0"></a></blockquote><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </div>
-                <div>
-                    <blockquote class="twitter-tweet" data-lang="en" data-theme="dark"> <a [href]="selectedTweet"></a></blockquote><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <div #tweetContainer1>
+                    <blockquote class="twitter-tweet" data-lang="en" data-theme="dark"> <a [href]="selectedTweet1"></a></blockquote><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </div>
             </div>
         </div>

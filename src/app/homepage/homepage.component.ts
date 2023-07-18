@@ -5,13 +5,11 @@ import { getStorage, ref, list, getDownloadURL, getMetadata } from "firebase/sto
 import { Router } from '@angular/router';
 
 import { ActivatedRoute } from '@angular/router';
-import { filter, mergeMap, switchMap, takeUntil } from 'rxjs/operators';
-import { NavigationEnd } from '@angular/router';
-import { Subject, of, timer } from 'rxjs';
-import { interval, Subscription } from 'rxjs';
-
+import { Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ThemeService } from '../theme.service';
 
+declare var twttr: any;
 
 // Define the component metadata
 @Component({
@@ -43,7 +41,10 @@ export class HomepageComponent {
     'https://twitter.com/BillyM2k/status/1677737855827988480'
   ];
 
-  public selectedTweet: string | undefined;
+
+  public selectedTweet0: string | undefined;
+  public selectedTweet1: string | undefined;
+
   private subscription!: Subscription;
   reloadIntervalId: any;
 
@@ -60,12 +61,11 @@ export class HomepageComponent {
   memespageToken: string | undefined;
   storage: any;
   @ViewChild('scrollcontainer', { static: true }) scrollcontainer!: ElementRef;
-
-  trending: HTMLElement | null = null;
-
+  @ViewChild('tweetContainer0', { static: true }) tweetContainer0!: ElementRef;
+  @ViewChild('trendingContainer', { static: true }) trendingContainer!: ElementRef;
 
   // Define the constructor for the component, which initializes Firebase and loads initial images
-  constructor(private renderer: Renderer2, private router: Router, private route: ActivatedRoute, private themeService: ThemeService, private changeDetector: ChangeDetectorRef, private elementRef: ElementRef) {
+  constructor(private renderer2: Renderer2, private router: Router, private route: ActivatedRoute, private themeService: ThemeService, private changeDetector: ChangeDetectorRef, private el: ElementRef) {
     const firebaseConfig = {
       projectId: 'memey-e9b65',
       appId: '1:693078826607:web:25689a779fc6b129bf779a',
@@ -87,50 +87,36 @@ export class HomepageComponent {
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
     this.randomizeTweet();
   
     const reloadInterval = 5;
     this.reloadIntervalId = setInterval(() => { this.randomizeTweet() }, reloadInterval * 1000);
 
+    const checkHeightInterval = setInterval(() => {
+      const tweetContainer0Height = this.tweetContainer0.nativeElement.offsetHeight;
 
-    // this.trending = document.querySelector('#trending');
-    // this.addScrollEventListener();
-  }
+      if (tweetContainer0Height !== 0) {
+        const topPosition = ((-1) * (tweetContainer0Height + 100 - 7 - 117.8));
+        this.renderer2.setStyle(this.trendingContainer.nativeElement, 'top', `${topPosition}px`);
+        clearInterval(checkHeightInterval);
+      }
+    }, 100); // Check every 100ms
 
-  // addScrollEventListener() {
-  //   window.addEventListener('scroll', () => {
-
-  //     let screenheight = window.innerHeight;
-  //     let stickyStart = screenheight * 0.7;
-      
-  //     if (window.pageYOffset > stickyStart) {
-  //       this.trending?.style.setProperty('position', 'static');
-  //       this.trending?.style.setProperty('top', '0');
-  //       console.log("Sticky Works");
-  //     }
-  //     else {
-  //       this.trending?.style.setProperty('position', 'relative');
-  //     }
-  //     console.log("Sticky Works");
-  //   });
-  // }
-  
-  ngOnDestroy() {
-    if(this.reloadIntervalId) {
-      clearInterval(this.reloadIntervalId);
-    }
   }
 
   async randomizeTweet() {
-    let randomIndex = Math.floor(Math.random() * this.tweetList.length);
+
+    let randomIndex0 = Math.floor(Math.random() * this.tweetList.length);
+    let randomIndex1 = Math.floor(Math.random() * this.tweetList.length);
+
     console.log("It Works");
-    this.selectedTweet = this.tweetList[randomIndex];
+    this.selectedTweet0 = this.tweetList[randomIndex0];
+    this.selectedTweet1 = this.tweetList[randomIndex1];
 
-    this.changeDetector.detectChanges();
-
-    if ((window as any).twttr && (window as any).twttr.widgets) {
-      (window as any).twttr.widgets.load();
-    }
+    //twttr.widgets.reload();
   }
 
   // Define a method to load initial images
