@@ -138,7 +138,8 @@
   /* top: -625px; */
   flex-direction: column;
   justify-content: flex-start;
-  margin-top: 7px;
+  align-items: center;
+  margin-top: 20px;
   margin-left: 6%;
 }
 

@@ -1,27 +1,22 @@
-<div class="outer-div">
-  <div #scrollableDiv class="inner-div" (scroll)="onScroll($event)">
-    <div class="div0" (click)="pageReload()">
-      <div [ngClass]="{ 'hide-contents': shouldHideContents, 'show': !shouldHideContents }">
-        <h1>MEMEY</h1>
-      </div>
-    <div class="div1" (click)="navigateToHome()">
-        <div [ngClass]="{ 'hide-contents': shouldHideContents, 'show': !shouldHideContents }">
-          <h2 class="line blue">HOME</h2>
-        </div>
-    </div>
-    <div class="div2" (click)="pageReload()">
-        <div [ngClass]="{ 'hide-contents': shouldHideContents, 'show': !shouldHideContents }">
-          <h2 class="line red">ENTER THY DUNGEON</h2>
-        </div>
-    </div>
-    <button class="div3" (click)="navigateToAboutUs()">
-      <div [ngClass]="{ 'hide-contents': shouldHideContents, 'show': !shouldHideContents }">
-        <h2 class="line green">ABOUT US</h2>
-      </div>
+<div class="dungeon-grid">
+  <div appTheme class="header">
+    <button class="header-divs div0" (click)="pageReload()">
+        <h1 class="heading-style">MEMEY</h1>
+    </button>
+    <button class="header-divs div1" (click)="navigateToHome()">
+        <h2 class="heading-style line blue">HOME</h2>
+    </button>
+    <button class="header-divs div2" (click)="pageReload()">
+        <h2 class="heading-style line red">ENTER THY DUNGEON</h2>
+    </button>
+    <button class="header-divs div3" (click)="navigateToAboutUs()">
+        <h2 class="heading-style line green">ABOUT US</h2>
     </button>
   </div>
-    <ngx-masonry [options]="masonryOptions" style="width: 500%; margin: 30; top:120px; left: 0px;" [ordered]="true">
-      <div ngxMasonryItem *ngFor="let image of masonryImages;index as idx" style="width: 6.45%; position: relative; margin: 6px;">
+  
+  <div #scrollableDiv class="content" (scroll)="onScroll($event)">
+    <ngx-masonry [options]="masonryOptions" style="width: 100%; margin-left: 30px; margin-top: 15px;" [ordered]="true">
+      <div ngxMasonryItem *ngFor="let image of masonryImages;index as idx" style="width: 31.2%; position: relative; margin: 6px;">
         <div #colorDiv [ngStyle]="{'position': 'absolute', 'top': '0', 'right': '0', 'bottom': '0', 'left': '0', 'background': image.color, 'z-index': '2'}"> </div> <!-- color div -->
         <div class="card text-white bg-dark mb-3" style="max-width: 18r; padding-bottom: 0px;"> 
           <div class="card-header" style="padding-top: 2px; padding-bottom: 1px;">
@@ -34,4 +29,5 @@
       </div>
     </ngx-masonry>
   </div>
+
 </div>

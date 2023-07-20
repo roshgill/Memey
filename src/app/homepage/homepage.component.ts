@@ -87,12 +87,7 @@ export class HomepageComponent {
   }
 
   ngOnInit() {
-  }
-
-  ngAfterViewInit() {
-    this.randomizeTweet();
-  
-    const reloadInterval = 5;
+    const reloadInterval = 10;
     this.reloadIntervalId = setInterval(() => { this.randomizeTweet() }, reloadInterval * 1000);
 
     const checkHeightInterval = setInterval(() => {
@@ -103,8 +98,11 @@ export class HomepageComponent {
         this.renderer2.setStyle(this.trendingContainer.nativeElement, 'top', `${topPosition}px`);
         clearInterval(checkHeightInterval);
       }
-    }, 100); // Check every 100ms
+    }, 1000); // Check every 100ms
+  }
 
+  ngAfterContentInit() {
+    this.randomizeTweet();
   }
 
   async randomizeTweet() {
@@ -116,7 +114,39 @@ export class HomepageComponent {
     this.selectedTweet0 = this.tweetList[randomIndex0];
     this.selectedTweet1 = this.tweetList[randomIndex1];
 
-    //twttr.widgets.reload();
+    twttr.widgets.load(
+      document.getElementById("tweetContainer1")
+    );
+
+    // Get the tweet container
+    let tweetContainer = document.getElementById('tweetContainer1');
+
+    // Remove the old blockquote from the tweet container
+    while (tweetContainer?.firstChild) {
+      tweetContainer.removeChild(tweetContainer.firstChild);
+    }
+
+    // Create a new blockquote with the new tweet
+    let blockquote = document.createElement('blockquote');
+    blockquote.className = 'twitter-tweet';
+    blockquote.dataset['lang'] = 'en';
+    blockquote.dataset['theme'] = 'dark';
+
+    let a = document.createElement('a');
+    a.href = this.selectedTweet1;
+    blockquote.appendChild(a);
+
+    let script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://platform.twitter.com/widgets.js';
+    script.charset = 'utf-8';
+    blockquote.appendChild(script);
+
+    tweetContainer?.appendChild(blockquote);
+
+    twttr.widgets.load(
+      document.getElementById("tweetContainer1")
+    );
   }
 
   // Define a method to load initial images

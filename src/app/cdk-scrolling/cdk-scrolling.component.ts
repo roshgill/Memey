@@ -209,11 +209,6 @@ export class CdkScrollingComponent {
 
   // Listen for scroll events on the window object, and load more images when certain conditions are met
   onScroll(event: any) {
-    // Get the scroll position of the scrollableDiv element
-    const scrollPosition = this.scrollableDiv.nativeElement.scrollTop;
-    this.shouldHideContents = scrollPosition > 30;
-    this.isScrolled = scrollPosition > 70;
-    this.isPaneVisible = window.scrollY > 30;
     
     // Iterate over the colorDivs array and check if the div is in the view
     this.colorDivs.forEach(div => this.checkIfInView(div));
@@ -239,13 +234,13 @@ export class CdkScrollingComponent {
       And masonryImages array has less than 1000 elements.
       */
       // Call loadMemes and loadGifs 
-      if (scrollPosition + windowHeight >= documentHeight * 0.7 && this.promiseState == 'loaded' && !this.isLoading && this.masonryImages.length < 1000) {
+      if (this.promiseState == 'loaded' && !this.isLoading && this.masonryImages.length < 1000) {
         this.isLoading = true;
-        this.loadMemes(35).then(() => {
+        this.loadMemes(15).then(() => {
           this.memeCount += 2;
           this.isLoading = false;
           if (this.memeCount % 4 == 0) {
-            this.loadGifs(25).then(() => {
+            this.loadGifs(5).then(() => {
             });
           }
         });
