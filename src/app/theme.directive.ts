@@ -53,16 +53,16 @@ export class ThemeDirective implements OnInit, OnDestroy {
       // Apply color theme colors
       switch (className) {
         case 'header':
-          this.el.nativeElement.style.backgroundColor = '#FFBF00';
+          this.el.nativeElement.style.backgroundColor = '#1645F5';
           break;
         case 'nav':
-          this.el.nativeElement.style.backgroundColor = 'blue';
+          //this.el.nativeElement.style.backgroundColor = 'F0F14E';
           break;
         case 'nav-rounded-box':
-          this.el.nativeElement.style.backgroundColor = 'red';
+          this.el.nativeElement.style.backgroundColor = '#ED3833';
           break;
         case 'navi-button':
-          this.el.nativeElement.style.backgroundColor = 'transparent';
+          this.el.nativeElement.style.backgroundColor = '#ED3833';
           break;
       }
     }

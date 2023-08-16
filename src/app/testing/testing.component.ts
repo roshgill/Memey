@@ -1,9 +1,11 @@
+import { Component } from '@angular/core';
 // Import necessary modules from Angular and Firebase
-import { Component, OnInit, ViewChild, Renderer2, ElementRef, AfterViewInit, OnDestroy, ChangeDetectorRef, HostBinding, HostListener} from '@angular/core';
+import { ViewChild, Renderer2, ElementRef, ChangeDetectorRef} from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, list, getDownloadURL, getMetadata } from "firebase/storage";
-import { Router } from '@angular/router';
+import { getFirestore, doc, getDoc, collection, updateDoc } from "firebase/firestore";
 
+import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Subscription } from 'rxjs';
@@ -11,16 +13,12 @@ import { ThemeService } from '../theme.service';
 
 declare var twttr: any;
 
-// Define the component metadata
 @Component({
-  selector: 'app-homepage',
-  templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.css']
+  selector: 'app-testing',
+  templateUrl: './testing.component.html',
+  styleUrls: ['./testing.component.css']
 })
-
-// Define the HomepageComponent class
-export class HomepageComponent {
-
+export class TestingComponent {
   tweetList: string[] = [
     'https://twitter.com/cb_doge/status/1678399673407504386?ref_src=twsrc%5Etfw',
     'https://twitter.com/DeadpoolUpdate/status/1678427696580231168',
@@ -48,6 +46,24 @@ export class HomepageComponent {
 
   private destroy$ = new Subject<void>();
 
+  public passwordcorrect = true;
+  public password = '';
+  public firebaseConfig = {
+    projectId: 'memey-e9b65',
+    appId: '1:693078826607:web:25689a779fc6b129bf779a',
+    storageBucket: 'gs://memey-bucket',
+    locationId: 'us-central',
+    apiKey: 'AIzaSyCEaqo_JnonmlskbDK30QOpVo3KdA-YZR4',
+    authDomain: 'memey-e9b65.firebaseapp.com',
+    messagingSenderId: '693078826607',
+    measurementId: 'G-GDWWNE42TH',
+  }
+  // Initialize Firebase
+  public app = initializeApp(this.firebaseConfig);
+
+  public toDelete = new Set<string>();
+  public toDeleteNum = this.toDelete.size;
+
   // Define properties for the component
   memeImages: { title: string, imageUrl: string, betaUsername: string }[] = [];  
   memesListReference: any;
@@ -64,19 +80,8 @@ export class HomepageComponent {
 
   // Define the constructor for the component, which initializes Firebase and loads initial images
   constructor(private renderer2: Renderer2, private router: Router, private route: ActivatedRoute, private themeService: ThemeService, private changeDetector: ChangeDetectorRef, private el: ElementRef) {
-    const firebaseConfig = {
-      projectId: 'memey-e9b65',
-      appId: '1:693078826607:web:25689a779fc6b129bf779a',
-      storageBucket: 'gs://memey-bucket',
-      locationId: 'us-central',
-      apiKey: 'AIzaSyCEaqo_JnonmlskbDK30QOpVo3KdA-YZR4',
-      authDomain: 'memey-e9b65.firebaseapp.com',
-      messagingSenderId: '693078826607',
-      measurementId: 'G-GDWWNE42TH',
-    }
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    this.storage = getStorage(app);
+
+    this.storage = getStorage(this.app);
   
     this.memesListReference = ref(this.storage, 'funny/');    
 
@@ -85,9 +90,9 @@ export class HomepageComponent {
   }
 
   ngOnInit() {
-    const reloadInterval = 10;
-    this.reloadIntervalId = setInterval(() => { this.randomizeTweet() }, reloadInterval * 1000);
+  }
 
+  stickTweets() {
     const checkHeightInterval = setInterval(() => {
       const tweetContainer0Height = this.tweetContainer0.nativeElement.offsetHeight;
 
@@ -243,11 +248,6 @@ export class HomepageComponent {
     this.memespageToken = undefined;
   }
 
-  // Define a method to reload the page
-  pageReload() {
-    window.location.reload();
-  }
-
   displayDankMemes() {
     this.resetData();
     this.memesListReference = ref(this.storage, 'dank/');
@@ -277,6 +277,11 @@ export class HomepageComponent {
     this.themeService.enableColorTheme();
   }
 
+  // Define a method to reload the page
+  pageReload() {
+    window.location.reload();
+  }
+
   // Define a method to navigate to the dungeon page
   navigateToDungeon() {
     this.router.navigate(['/dungeon']);
@@ -295,4 +300,81 @@ export class HomepageComponent {
   navigateToTerms() {
     this.router.navigate(['/terms-conditions']);
     }
+
+
+  //Define a method to compare password in firestore to user input
+  async comparePassword() {
+
+    const db = getFirestore(this.app);
+
+    //Get the password from firestore
+    const passwordRef = doc(db, 'filtering-password', 'password');
+    const docSnap = await getDoc(passwordRef);
+
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      //If the password is correct, navigate to the dungeon page
+      if (this.password == docSnap.data()[0]) {
+        this.passwordcorrect = true;
+      }
+      //If the password is incorrect, display an error message
+      else {
+        console.log("Incorrect password");
+    }
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }
+
+
+  boxChecked(event: any, meme: any) {
+    if (event.target.checked == true ) {
+      console.log("checked");
+      this.toDelete.add(meme);
+      console.log(this.toDelete)
+    }
+
+    else {
+      console.log("unchecked");
+      this.toDelete.delete(meme);
+      console.log(this.toDelete)
+    }
+    this.toDeleteNum = this.toDelete.size;
+  }
+
+
+  async deleteMemes() {
+    var firestoreData = new Set<string>();
+    var path = this.memesListReference.fullPath;
+    path = path + '-hexadecimals';
+    
+    const db = getFirestore(this.app);
+
+    const deleteRef = doc(db, 'meme-hexadecimals', path);
+    const docSnap = await getDoc(deleteRef);
+
+    if (docSnap.exists()) {
+      this.toDelete = new Set(Array.from(this.toDelete).map(value => value.replace('.jpg', '')));
+      firestoreData = new Set(docSnap.data()['values']);
+      
+      // Create a new Set with values not present in toDelete
+      console.log(firestoreData);
+      console.log(this.toDelete);
+      const newFirestoreData = [...firestoreData].filter(x => !this.toDelete.has(x));
+      console.log(newFirestoreData);
+
+      // Write the new values back to Firestore
+      await updateDoc(deleteRef, {
+        values: newFirestoreData
+      });
+
+
+      this.pageReload();
+    }
+    else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }
 }

@@ -6,6 +6,8 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { DmcaComponent } from './dmca/dmca.component'; 
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { NotSupportedComponent } from './not-supported/not-supported.component';
+import { TestComponentRenderer } from '@angular/core/testing';
+import { TestingComponent } from './testing/testing.component';
 
 const routes: Routes = [
   { path: 'dungeon', component: CdkScrollingComponent },
@@ -13,7 +15,7 @@ const routes: Routes = [
   { path: 'dmca', component: DmcaComponent },
   { path: 'terms-conditions', component: TermsAndConditionsComponent },
   { path: 'not-supported', component: NotSupportedComponent },
-  { path: '', component: HomepageComponent, pathMatch: 'full' }
+  { path: '', component: TestingComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

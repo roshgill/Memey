@@ -1,5 +1,18 @@
-<!-- Container div for the entire page -->
-<div class="container1">
+<div *ngIf="passwordcorrect; then thenBlock else elseBlock"></div>
+
+<ng-template #elseBlock>
+    <div class="center-screen">
+        <div>
+            <h2 class="heading-style" style="font-size: 24px;">Coded</h2>
+            <input type="password" [(ngModel)]="password">
+        </div>
+        <button style="display:block; margin-top: 10px; width: 150px; margin-left: auto; margin-right: auto;" (click)="comparePassword()">Submit</button>
+    </div>
+</ng-template>
+
+<ng-template #thenBlock>
+    <!-- Container div for the entire page -->
+<div #thenBlock class="container1">
     <div appTheme class="header">
             <button class="header-divs div0" (click)="pageReload()">
                 <h1 class="heading-style">MEMEY</h1>
@@ -7,15 +20,18 @@
             <button class="header-divs div1" (click)="pageReload()">
                 <h2 class="heading-style line blue">HOME</h2>
             </button>
-            <button class="header-divs div2" (click)="navigateToDungeon()">
+            <button class="header-divs div2">
                 <h2 class="heading-style line red">ENTER THY DUNGEON</h2>
             </button>
-            <button class="header-divs div3" (click)="navigateToAboutUs()">
+            <button class="header-divs div3">
                 <h2 class="heading-style line green">ABOUT US</h2>
             </button>
-            <button class="header-divs div5">
-                <h2 class="heading-style">Digitalverse</h2>
-            </button>
+            <div class="div5">
+                <h2 class="heading-style">{{toDeleteNum}} Selected</h2>
+                <button appTheme class="navi-button" style="width: auto; margin-top: 5px;" (click)="deleteMemes()">
+                    <h3 class="heading-style">Delete</h3>
+                </button>
+            </div>
     </div>
 
     <div appTheme class="nav">
@@ -63,7 +79,13 @@
                     </div>
                     <div class="card-body text-success" style="padding-top: 10px; padding-bottom: 0px;">
                         <img class="meme-image" [src]="meme.imageUrl">
-                    </div>   
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" style="width: 25px; height: 25px;" type="checkbox" value="" id="flexCheckDefault" (change)="boxChecked($event, meme.title)">
+                        <label class="form-check-label" style="font-size: 20px;"for="flexCheckDefault">
+                          DELETE
+                        </label>
+                    </div>
                 </div>
            </div>
         </div>
@@ -79,3 +101,4 @@
         </div>
     </div>
 </div>
+</ng-template>

@@ -7,6 +7,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FormsModule } from '@angular/forms';
 
@@ -18,6 +19,7 @@ import { DmcaComponent } from './dmca/dmca.component';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { NotSupportedComponent } from './not-supported/not-supported.component';
 import { ThemeDirective } from './theme.directive';
+import { TestingComponent } from './testing/testing.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { ThemeDirective } from './theme.directive';
     TermsAndConditionsComponent,
     NotSupportedComponent,
     ThemeDirective,
+    TestingComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,8 @@ import { ThemeDirective } from './theme.directive';
     InfiniteScrollModule,
     FormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideStorage(() => getStorage())
+    provideStorage(() => getStorage()),
+    provideFirestore(() => getFirestore())
   ],
   schemas: [],
   providers: [],

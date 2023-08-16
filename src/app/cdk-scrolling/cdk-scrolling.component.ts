@@ -122,7 +122,6 @@ export class CdkScrollingComponent {
           getMetadata(itemRef)
           .then((metadata) => {
             let betaUser = metadata.customMetadata ? metadata.customMetadata['beta-username'] : '';
-            console.log(betaUser);
             this.masonryImages.push({ title: itemRef.name, imageUrl: imageUrl, color: this.getRandomColor(), betaUsername: betaUser });
           })            
           .catch((error) => {
@@ -211,7 +210,8 @@ export class CdkScrollingComponent {
   onScroll(event: any) {
     
     // Iterate over the colorDivs array and check if the div is in the view
-    this.colorDivs.forEach(div => this.checkIfInView(div));
+    // this.colorDivs.forEach(div => this.checkIfInView(div));
+    // this.colorDivs.forEach(div => this.checkIfIntersecting(div));
     
     // If there is a scroll timeout already set, clear it
     if (this.scrollTimeout) {
@@ -248,70 +248,31 @@ export class CdkScrollingComponent {
     }, 200);
   }
 
-  // Check if a particular element is fully in view on the screen
-  checkIfInView(element: ElementRef) {
-    // Get the dimensions and position of the element relative to the viewport
-    const rect = element.nativeElement.getBoundingClientRect();
-    // Check if the top, bottom, left, and right of the element are within the viewport
-    const isInView = rect.top >= 0 && rect.bottom <= window.innerHeight && rect.left >= 0 && rect.right <= window.innerWidth;
-    // If the element is in the view, add the 'transition' class to it
-    if (isInView) {
-      this.renderer.addClass(element.nativeElement, 'transition');
-    } else {
-      // If the element is not in the view, remove the 'transition' class
-      this.renderer.removeClass(element.nativeElement, 'transition');
-    }
-  }
-
-  // Set up IntersectionObservers to observe when colored divs come into view or go out of view
-  observers: IntersectionObserver[] = [];
-
-  // Angular lifecycle hook that is called after the component's view has been fully initialized
   ngAfterViewInit() {
-    // Subscribe to the changes of the colorDivs QueryList
-    this.colorDivs.changes.subscribe((comps: QueryList<ElementRef>) =>
-      // For each component in the QueryList, observe the element
-      comps.forEach(comp => this.observeElement(comp))
-    );
-  }
-  
-  // Function that sets up an Intersection Observer on an element
-  observeElement(element: ElementRef) {
-    /* 
-    Create a new Intersection Observer.
-    The observer is provided a callback function that is called whenever
-    the intersection state of the observed element changes
-    */
-    const observer = new IntersectionObserver(([entry]) => {
-      const isAbove = entry.boundingClientRect.top < 0;
-      const isBelow = entry.boundingClientRect.bottom > window.innerHeight;
-      const isLeft = entry.boundingClientRect.left < 0;
-      const isRight = entry.boundingClientRect.right > window.innerWidth;
-      // If the observed element is intersecting with the viewport (i.e., at least a part of it is visible)
-      if (entry.isIntersecting) {
-        // Add the 'fade-out' class to the element
-        this.renderer.addClass(entry.target, 'fade-out');
-        // If the observed element is not intersecting with the viewport and is either above, below, to the left, or to the right of the viewport
-      } else if (!entry.isIntersecting && (isAbove || isBelow || isLeft || isRight)) {
-        // Remove the 'fade-out' class from the element
-        this.renderer.removeClass(entry.target, 'fade-out');
-      }
-    });
-    
-    // Start observing the element
-    observer.observe(element.nativeElement);
-    // Add the observer to the list of observers
-    this.observers.push(observer);
-  }
+    this.colorDivs.changes.subscribe((comps: QueryList<ElementRef>) => {
 
+    // Create a new Intersection Observer
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        // If the div is in the viewport, add the 'transition' class
+        if (entry.isIntersecting) {
+          this.renderer.addClass(entry.target, 'transition');
+        } 
+        // If the div is not in the viewport, remove the 'transition' class
+        else {
+          this.renderer.removeClass(entry.target, 'transition');
+        }
+      });
+    }, { threshold: 0.1 }); // Configure the observer to trigger when at least 10% of the div is visible
+
+      // Use the Intersection Observer on each div
+      comps.forEach(div => observer.observe(div.nativeElement));
+    });
+  }
+    
   // Returns random color from provided colors list
   getRandomColor() {
     return this.colors[Math.floor(Math.random() * this.colors.length)];
-  }
-
-  // Destroy all obeservers
-  ngOnDestroy() {
-    this.observers.forEach(obs => obs.disconnect());
   }
 
   navigateToHome() {
