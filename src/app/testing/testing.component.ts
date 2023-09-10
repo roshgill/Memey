@@ -46,7 +46,7 @@ export class TestingComponent {
 
   private destroy$ = new Subject<void>();
 
-  public passwordcorrect = true;
+  public passwordcorrect = false;
   public password = '';
   public firebaseConfig = {
     projectId: 'memey-e9b65',
