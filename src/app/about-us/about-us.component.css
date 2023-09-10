@@ -1,4 +1,4 @@
-.page {
+ .page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -8,52 +8,25 @@
   text-align: center;
 }
 
-#problemPage {
+ #problemPage {
   background-color: rgb(17, 17, 17);
 }
 
-#solutionPage {
+ #solutionPage {
   background-color: rgb(17, 17, 17);
 }
 
-#joinPage {
+ #joinPage {
   background-color: rgb(17, 17, 17);
-}
-
-h2 {
-  font-family: "Arial Black", Gadget, sans-serif;
-  font-size: 27px;
-  color: #FFFFFF;
-  text-decoration: none;
-  text-transform: uppercase;
-  text-shadow: 2px 2px 4px #000000;
-}
-
-.paragraph {
-  font-family: "Arial Black", Gadget, sans-serif;
-  font-size: 23px;
-  color: #FFFFFF;
-  text-decoration: none;
-  text-transform: uppercase;
-  text-shadow: 2px 2px 4px #000000;
-}
-
-.bullet-points {
-  list-style-type: none;
-  margin-left: 20px;
-}
-.bullet-points li {
-  margin-top: 10px;
-  font-size: 20px;
 }
 
 .div1 { 
-  top: 70px;
+  top: 20px;
   width: 100%;
   height: 100px; 
   display:inline-block; 
   position:fixed; 
-  left:29px; 
+  left:65px; 
   border: none;
   background: none;
   padding: 0;
@@ -77,3 +50,37 @@ h1 {
   margin-left: -2px;
   margin-right: 4px;
   }
+
+h2 {
+    font-family: "Arial Black", Gadget, sans-serif;
+    font-size: 27px;
+    color: #FFFFFF;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+.paragraph {
+    font-family: "Arial Black", Gadget, sans-serif;
+    font-size: 23px;
+    color: #FFFFFF;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+.bullet-points {
+    list-style-type: none;
+    margin-left: 20px;
+}
+  
+.bullet-points li {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.submit-button {
+    display: inline-block;
+    margin-top: 15px;
+    background-color: yellowgreen;
+}

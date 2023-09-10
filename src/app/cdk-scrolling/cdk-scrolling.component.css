@@ -1,143 +1,84 @@
-.fade-out {
-  animation: fadeOut 5s forwards;
+.dungeon-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.6fr 4fr;
+  grid-template-areas:
+    "header"
+    "content";;
+  height: 100vh;
+}
+
+.header1 { 
+  grid-area: header;
+  background-color:#212529;
+  display: flex;
+  flex-direction: row;
+}
+
+.content {
+  grid-area: content;
+  justify-content: center;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+.header-divs {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.div0 {
+  display: inline-block;
+  margin-top: 20px;
+  margin-left: 55px;
+  margin-right: 45px;
+}
+
+.div1 {
+  display: inline-block;
+  margin-top: 35px;
+  margin-right: 20px;
+}
+
+.div2 {
+  display: inline-block;
+  margin-top: 35px;
+  margin-right: 20px;
+}
+
+.div3 {
+  display: inline-block;
+  margin-top: 35px;
+  margin-right: 110px;
+}
+
+.heading-style {
+  font-style: normal;
+  font-family: "Arial Black", Gadget, sans-serif;
+  font-weight: 400;
+  font-variant: normal;
+  letter-spacing: -0.6px;
+  word-spacing: -1px;
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+
+}
+
+h1.heading-style {
+  font-size: 60px;
+  letter-spacing: -6.5px;
+}
+
+h2.heading-style {
+  font-size: 27px;
 }
 
 .transition {
-  transition: opacity 5s;
-  transition: background 5s ;
+  transition: opacity 2.3s;
   opacity: 0;
 }
-
-.fade-out {
-  transition: opacity 2s;
-  opacity: 0;
-}
-
-.outer-div {
-  position: absolute;
-  top: 0px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgb(17, 17, 17);
-}
-
-.inner-div {
-  position: absolute;
-  top: 10px;
-  left: 25px;
-  right: 25px;
-  bottom: 10px;
-  background-color: rgb(17, 17, 17);
-  overflow: auto;
-}
-
-.div1 { 
-  top: 70px;
-  width: 100%;
-  height: 100px; 
-  display:inline-block; 
-  position:fixed; 
-  left:29px; 
-  border: none;
-  background: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-}
-
-.div2 { 
-  display:block; 
-  left:29px; 
-  top:220px;
-  position:fixed;
-  border: none;
-  background: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-}
-
-.div3 { 
-  display:block; 
-  left:470px; 
-  top:220px;
-  position:fixed; 
-  border: none;
-  background: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-}
-
-h1 {
-  font-family: "Arial Black", Gadget, sans-serif;
-  font-size: 60px;
-  letter-spacing: -6.5px;
-  color: #FFFFFF;
-  font-weight: 400;
-  font-style: normal;
-  font-variant: normal;
-  text-transform: uppercase;
-  line-height: 40px; /* add this line */
-  display: flex;  /* change from inline-block to flex */
-  margin-top: 12px;
-  margin-bottom: 16px;
-  margin-left: -2px;
-  margin-right: 4px;
-  }
-
-h2
-{
-  position: fixed;
-  font-family: "Arial Black", Gadget, sans-serif;
-  font-size: 27px;
-  letter-spacing: -0.6px;
-  word-spacing: -1px;
-  color: #FFFFFF;
-  font-weight: 400;
-  text-decoration: none;
-  font-style: normal;
-  font-variant: normal;
-  text-transform: uppercase;
-}
-
-
-.show {
-  opacity: 1;
-  transition: opacity 0.3s ease-in;
-}
-
-.hide-contents {
-  opacity: 0;
-  transition: opacity 0.3s ease-out;
-}
-
-.box {
-  display: inline-flex;  /* change from inline-block to inline-flex */
-  border-width: 4.5px;
-  border-style: solid;
-  box-sizing: border-box; /* To include padding and border in the box's total width and height */
-  justify-content: center; /* center contents horizontally */
-  align-items: center; /* center contents vertically */
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
-.box-outer {
-  border-color: #1645F5;
-}
-
-.box-middle {
-  border-color: #ED3833;
-}
-
-.box-inner {
-  border-color: #F0F14E;
-}
-
 
 .line:hover {
   cursor: url('/assets/cursor4.png'), auto;
@@ -164,9 +105,14 @@ h2
   background-color: #ED3833; /* Red color */
 }
 
-.line.green::before {
+.line.blue::before {
   background-color: #1645F5; /* Blue color */
 }
+
+.line.green::before {
+  background-color: yellow; /* Orange color */
+}
+
 
 .line:hover::before {
   width: 0%;
@@ -187,23 +133,16 @@ h2
   background-color: #ED3833; /* Red color */
 }
 
-.line.green::after {
+.line.blue::after {
   background-color: #1645F5; /* Blue color */
+}
+
+
+.line.green::after {
+  background-color: yellow; /* Orange color */
 }
 
 .line:hover::after {
   width: 100%;
   transition: width 0.3s ease 0.3s; /* Starts transition after a delay of 0.3s */
-}
-
-.sticky-pane {
-  display: none;
-  position: sticky;
-  top: 0;
-  /* ...additional styles... */
-  z-index: 100;
-}
-
-.sticky-pane.visible {
-  display: flex;
 }

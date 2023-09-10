@@ -1,76 +1,57 @@
-//Integrate necessary functions, decorators, directives, and services (tools)
-import { Component, OnInit, ViewChild, Renderer2, AfterViewInit, ElementRef, HostListener, ViewChildren, QueryList, Directive } from '@angular/core';
-import { NgxMasonryOptions, NgxMasonryComponent } from 'ngx-masonry';
+// Import necessary libraries, services and directives from Angular, Firebase and ngx-masonry
+import { Component, ViewChild, Renderer2, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { NgxMasonryOptions } from 'ngx-masonry';
 import { initializeApp } from 'firebase/app';
-import { getStorage, ref, list, getDownloadURL } from "firebase/storage";
-import { ScrollingModule } from '@angular/cdk/scrolling';
+import { getStorage, ref, list, getDownloadURL, getMetadata } from "firebase/storage";
 import { Router } from '@angular/router';
 
-
+// Define the Angular component, including its selector, CSS file and HTML template
 @Component({
   selector: 'app-cdk-scrolling',
   styleUrls: ['cdk-scrolling.component.css'],
   templateUrl: 'cdk-scrolling.component.html',
 })
 
+// Define the class for the Angular component
 export class CdkScrollingComponent {
   
-  /*In the provided code snippet, the `masonryOptions` variable is an object that holds configuration 
-  options for the `NgxMasonry` library, which is used to create a masonry grid layout for displaying images. 
-  The options specified in the object are:*/
+  // Set configuration options for the masonry grid layout
   public masonryOptions: NgxMasonryOptions = {
     horizontalOrder: true,
     percentPosition: true,
     gutter: 0,
   };
 
-  //Purpose of masonryImages is to store images downloaded from Google Cloud Database
-  //Purpose of colors array is to store different colors for transition effect
-  //Purpose of listReference is to store the reference path to specific bucket/folder containing said data
-  //Purpose of Promise variable intialLoadComplete is to first make certain to preload a certain number of images into masonryImages 
-  //before scrolling-detection/incremental-fetching occurs
-  //Purpose of isLoading to make sure loadImages is not called concurrently by downwards scrolling detector
-  //pageToken is meant to check if all images in Google Cloud Storage bucket are downloaded; stops duplicate downloads
-  //* Note: pageToken will not be taken into effect until storage costs are calculated for. Until then, manual masonryImages
-  //length will be calculated for instead
-  masonryImages: { title: string, imageUrl: string, color: string }[] = [];  
+  // Initialize various variables to manage image fetching and displaying
+  masonryImages: { title: string, imageUrl: string, color: string, betaUsername: string }[] = [];  
   colors = ['#ED3833', '#1645F5', '#6DED8A', '#F0F14E', '#FF5F85'];
-  listReference: any; // Add listReference as a class property
+  
+  memesListReference: any;
+  gifsListReference: any;
+  memespageToken: string | undefined;
+  gifspageToken: string | undefined;
   initialLoadComplete: Promise<void> | undefined;
   promiseState = 'pending';
-  firsttime = true;
+  firsttimememes = true;
+  firsttimegifs = true;
   isLoading = false;
+
   isPaneVisible = false;
-
-
-  //A way to track of all the elements in your HTML with a 'colorDiv' reference
-  @ViewChildren('colorDiv') colorDivs!: QueryList<ElementRef>;
-  @ViewChild('scrollableDiv', {static: true}) scrollableDiv!: ElementRef;
   public shouldHideContents = false;
   public isScrolled = false;
-  pageToken: string | undefined;
 
+  scrollTimeout: any;
+  memeCount = 0;
 
+  // Use ViewChild to get references to certain elements in the component's template
+  @ViewChildren('colorDiv') colorDivs!: QueryList<ElementRef>;
+  @ViewChild('scrollableDiv', {static: true}) scrollableDiv!: ElementRef;
 
-  /* 
-  0. Renderer2 is intitialized in the constructor; making it available for use within the component's methods, 
-  allowing DOM manipulations safely and consistently across different platforms.
-  
-  1. Firebase Configuration object data: This object contains the configuration settings required
-  to initialize the Firebase app and connect to the Firebase project. The configuration settings
-  include project ID, app ID, storage bucket URL, location ID, API key, authDomain, messaging
-  sender ID, and measurement ID. These settings are used to set up the Firebase app and
-  connect to Firebase services such as Firestore, Storage, and Authentication. 
-
-  2. Initialize app and database/bucket
-
-  3. Use asynch function to begin fetching specific number of images and appending into masonryImages using xhr
-  */
+  // Set up the Firebase app and get references to the Firebase storage buckets for memes and gifs
   constructor(private renderer: Renderer2, private router: Router) {
     const firebaseConfig = {
       projectId: 'memey-e9b65',
       appId: '1:693078826607:web:25689a779fc6b129bf779a',
-      //storageBucket: 'memey-e9b65.appspot.com',]
       storageBucket: 'gs://memey-bucket',
       locationId: 'us-central',
       apiKey: 'AIzaSyCEaqo_JnonmlskbDK30QOpVo3KdA-YZR4',
@@ -80,45 +61,49 @@ export class CdkScrollingComponent {
   }
 
   const app = initializeApp(firebaseConfig);
-  //const storage = getStorage(app, 'memey-e9b65-f50db71f96db.json');
   const storage = getStorage(app);
-  this.listReference = ref(storage, 'memes/');
-  // Log the list reference
-  console.log('List reference:', this.listReference); 
-  var image_num = 100;
-  // Call the loadImages function here
-  this.loadImages(image_num);
+  this.memesListReference = ref(storage, 'funny/');
+  this.gifsListReference = ref(storage, 'gifs/');
+
+  this.loadInitialImages();
   }
 
-  async loadImages(image_num: number) {
+  // Load an initial set of images when the component is created
+  async loadInitialImages() {
+    const memeBatchSize = 10;
+    const gifBatchSize = 10;
   
-  if (!this.firsttime && !this.pageToken) 
+    for (let i = 0; i < 5; i++) {
+      await this.loadMemes(memeBatchSize);
+      await this.loadGifs(gifBatchSize);
+    }
+  }
+
+  // Define an asynchronous function to load a set number of meme images from Firebase
+  async loadMemes(image_num: number) {
+  // Functionality simply handles the first time meme database is accessed 
+  if (!this.firsttimememes && !this.memespageToken) 
     return;
   
   let firstPage;
-  if (this.firsttime == true) 
+  if (this.firsttimememes == true) 
   {
-    firstPage = await list(this.listReference, { maxResults: image_num });
-    this.firsttime = false;
+    //Place all urls into firstPage
+    firstPage = await list(this.memesListReference, { maxResults: image_num });
+    this.firsttimememes = false;
   }
   else {
-    firstPage = await list(this.listReference, { maxResults: image_num, pageToken: this.pageToken});
+    firstPage = await list(this.memesListReference, { maxResults: image_num, pageToken: this.memespageToken});
   }
 
-  this.pageToken = firstPage.nextPageToken;
-  console.log('Rawrrrrr ' + this.pageToken)
+  this.memespageToken = firstPage.nextPageToken;
 
-  /* 
-    getDownloadURL() only retrieves the URL where the image is stored. 
-    To actually download and process the image, we make a separate request, 
-    which can be done using XMLHttpRequest.
-    XMLHttpRequest is used to fetch the image data as a blob from the download URL. 
-    Once the image data is fetched, it is used to create a local URL for the image blob,
-    which is then stored in the masonryImages array for display by ngxMasonry.
-  */
-  firstPage.items.forEach((itemRef: any) => {
-    getDownloadURL(itemRef)
+    // Process each item in the first page
+    firstPage.items.forEach((itemRef: any) => {
+      // Get the reference URL for each item
+      getDownloadURL(itemRef)
       .then((url) => {
+        // Create a new XMLHttpRequest object
         const xhr = new XMLHttpRequest();
         xhr.responseType = 'blob';
         /*
@@ -127,15 +112,28 @@ export class CdkScrollingComponent {
           to load, your code can continue executing other tasks, and when the image is loaded 
           (the event), the xhr.onload function is called (executed) to process the image data.
           */
-        xhr.onload = () => {
+          // Define the onload function for the XMLHttpRequest object
+          xhr.onload = () => {
+          // Create a blob from the response
           const blob = xhr.response;
+          // Create an image URL from the blob
           const imageUrl = URL.createObjectURL(blob);
-          this.masonryImages.push({ title: itemRef.name, imageUrl: imageUrl, color: this.getRandomColor() });
-          console.log('Image added:', { title: itemRef.name, imageUrl: imageUrl });
-        };
+          // Add the image to the masonryImages array
+          getMetadata(itemRef)
+          .then((metadata) => {
+            let betaUser = metadata.customMetadata ? metadata.customMetadata['beta-username'] : '';
+            this.masonryImages.push({ title: itemRef.name, imageUrl: imageUrl, color: this.getRandomColor(), betaUsername: betaUser });
+          })            
+          .catch((error) => {
+            console.error('Error fetching metadata:', error);
+          });
+        }
+        // Open the XMLHttpRequest object with the GET method and the Google Cloud reference URL
         xhr.open('GET', url);
+        // Send the XMLHttpRequest
         xhr.send();
       })
+      // Catch any errors that occur during the process
       .catch((error) => {
         console.error('Error fetching image:', error);
       });
@@ -144,111 +142,141 @@ export class CdkScrollingComponent {
       this.promiseState = 'loaded';
     }
   });
-  console.log('Images are being fetched and processed');
-  console.log(this.masonryImages.length)
 }
 
-  /*
-  1. @HostListener is a decorator in Angular that listens for events on the host element. 
-  In this case, it's listening to the scroll event on the window object. The [] indicates 
-  that there are no arguments to be passed to the function that handles this event.
-  2. scrollPosition gets the current scroll position in the document
-  3. windowHeight gets the current window height
-  4. documentHeight gets the total height of the entire document, including the part 
-  currently out of view.
-  5. if statement conditional checks whether the user has scrolled beyond 30% of the 
-  document's total height, and also checks whether the app is currently loading images 
-  and whether there are fewer than 500 images already loaded. If all these conditions are met, 
-  then more images are loaded.
-  6. 100 images will be loaded each time, calls to loadImages will not occur concurrently because of isLoading variable
-  */
-  scrollTimeout: any;
+  // Define an asynchronous function to load a set number of gif images from Firebase
+  async loadGifs(image_num: number) {
 
+    let firstPage;
+
+    if (!this.firsttimegifs && !this.gifspageToken)
+      return;
+      
+    if (this.firsttimegifs == true)
+    {
+      firstPage = await list(this.gifsListReference, { maxResults: image_num })
+      this.firsttimegifs = false;
+    }
+    else {
+      firstPage = await list(this.gifsListReference, {maxResults: image_num, pageToken: this.gifspageToken });
+    }
+
+    this.gifspageToken = firstPage.nextPageToken;
+    // Process each item in the first page
+    firstPage.items.forEach((itemRef: any) => {
+      // Get the reference URL for each item
+      getDownloadURL(itemRef)
+        .then((url) => {
+          // Create a new XMLHttpRequest object
+          const xhr = new XMLHttpRequest();
+          xhr.responseType = 'blob';
+          /*
+            The xhr.onload function is a callback function. It's a set of instructions to the xhr 
+            object to follow when the image fetching is completed. While waiting for the image 
+            to load, your code can continue executing other tasks, and when the image is loaded 
+            (the event), the xhr.onload function is called (executed) to process the image data.
+          */
+          // Define the onload function for the XMLHttpRequest object
+          xhr.onload = () => {
+            // Create a blob from the response
+            const blob = xhr.response;
+            // Create an image URL from the blob
+            const imageUrl = URL.createObjectURL(blob);
+            // Add the image to the masonryImages array
+            getMetadata(itemRef)
+            .then((metadata) => {
+              let betaUser = metadata.customMetadata ? metadata.customMetadata['beta-username'] : '';
+              console.log(betaUser);
+              this.masonryImages.push({ title: itemRef.name, imageUrl: imageUrl, color: this.getRandomColor(), betaUsername: betaUser });
+            })            
+            .catch((error) => {
+              console.error('Error fetching metadata:', error);
+            });
+          }
+
+          // Open the XMLHttpRequest object with the GET method and the Google Cloud reference URL
+          xhr.open('GET', url);
+          // Send the XMLHttpRequest
+          xhr.send();
+        })
+        // Catch any errors that occur during the process
+        .catch((error) => {
+          console.error('Error fetching image:', error);
+        });
+    });
+  }
+
+  // Listen for scroll events on the window object, and load more images when certain conditions are met
   onScroll(event: any) {
-    const scrollPosition = this.scrollableDiv.nativeElement.scrollTop;
-    this.shouldHideContents = scrollPosition > 70;
-    this.isScrolled = scrollPosition > 70;
-    this.isPaneVisible = window.pageYOffset > 70;
-
-    this.paneisrendered();
-    this.colorDivs.forEach(div => this.checkIfInView(div));
+    
+    // Iterate over the colorDivs array and check if the div is in the view
+    // this.colorDivs.forEach(div => this.checkIfInView(div));
+    // this.colorDivs.forEach(div => this.checkIfIntersecting(div));
+    
+    // If there is a scroll timeout already set, clear it
     if (this.scrollTimeout) {
       clearTimeout(this.scrollTimeout);
     }
 
+    // Set a Timeout for 200 milliseconds
     this.scrollTimeout = setTimeout(() => {
-      const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      // Get the scroll position. Prioritizes window.scrollY, if that is not present, falls back to document.documentElement.scrollTop, document.body.scrollTop and 0
+      const scrollPosition = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      // Get the window height
       const windowHeight = window.innerHeight;
+      // Get the total height of the document
       const documentHeight = document.documentElement.scrollHeight;
 
-      // Load more images when the user scrolls near the bottom of the page
-      if (scrollPosition + windowHeight >= documentHeight * 0.3 && this.promiseState == 'loaded' && !this.isLoading && this.masonryImages.length < 1000) {
+      /* 
+      If the current scroll position plus the window height is more than 70% of the document height.
+      And the previous promise for loading images is loaded.
+      And it's not currently loading images. 
+      And masonryImages array has less than 1000 elements.
+      */
+      // Call loadMemes and loadGifs 
+      if (this.promiseState == 'loaded' && !this.isLoading && this.masonryImages.length < 1000) {
         this.isLoading = true;
-        this.loadImages(30).then(() => {
+        this.loadMemes(15).then(() => {
+          this.memeCount += 2;
           this.isLoading = false;
+          if (this.memeCount % 4 == 0) {
+            this.loadGifs(5).then(() => {
+            });
+          }
         });
       }
     }, 200);
   }
 
-  itemsLoaded() {
-    console.log('itemsloaded');
-  }
+  ngAfterViewInit() {
+    this.colorDivs.changes.subscribe((comps: QueryList<ElementRef>) => {
 
+    // Create a new Intersection Observer
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        // If the div is in the viewport, add the 'transition' class
+        if (entry.isIntersecting) {
+          this.renderer.addClass(entry.target, 'transition');
+        } 
+        // If the div is not in the viewport, remove the 'transition' class
+        else {
+          this.renderer.removeClass(entry.target, 'transition');
+        }
+      });
+    }, { threshold: 0.1 }); // Configure the observer to trigger when at least 10% of the div is visible
+
+      // Use the Intersection Observer on each div
+      comps.forEach(div => observer.observe(div.nativeElement));
+    });
+  }
+    
+  // Returns random color from provided colors list
   getRandomColor() {
     return this.colors[Math.floor(Math.random() * this.colors.length)];
   }
-  
-  //overall, the checkIfInView function checks whether each colored box is fully on the screen or not and tells it to start or stop the transition accordingly
-  checkIfInView(element: ElementRef) {
-    const rect = element.nativeElement.getBoundingClientRect();
-    const isInView = rect.top >= 0 && rect.bottom <= window.innerHeight && rect.left >= 0 && rect.right <= window.innerWidth;
-    if (isInView) {
-      this.renderer.addClass(element.nativeElement, 'transition');
-    } else {
-      this.renderer.removeClass(element.nativeElement, 'transition');
-    }
-  }
 
-
-  //Observers job is to watch certain parts of a webpage 
-  //(like some colored boxes), and tell you when these 
-  //parts come into view or go out of view
-  observers: IntersectionObserver[] = [];
-
-  //Whenever a new colored box shows up, I want 
-  //to assign an observer to it
-  ngAfterViewInit() {
-    //this.colorDivs is a reference to a list of all the colored boxes (divs) on your web page.
-    //.changes is a special property that's part of Angular's QueryList. It's like an alarm system that goes off whenever there's a change in the list of colored boxes - for example, when a new box is added, or an old one is removed.
-    //.subscribe(...) is like saying, "I want to be notified whenever this alarm goes off." In other words, whenever there's a change in the list of colored boxes, it will run the function that's inside the parentheses.
-    //comps is the new list of colored boxes after the change. For example, if a new box was added, comps would be the list of all the old boxes plus the new one
-    this.colorDivs.changes.subscribe((comps: QueryList<ElementRef>) =>
-      comps.forEach(comp => this.observeElement(comp))
-    );
-  }
-  
-  //So, overall, this function creates a robot for each colored box on your web page, tells it how to react when the box comes into view or goes out of view, and adds it to a list of all the other robots.
-  observeElement(element: ElementRef) {
-    const observer = new IntersectionObserver(([entry]) => {
-      const isAbove = entry.boundingClientRect.top < 0;
-      const isBelow = entry.boundingClientRect.bottom > window.innerHeight;
-      const isLeft = entry.boundingClientRect.left < 0;
-      const isRight = entry.boundingClientRect.right > window.innerWidth;
-      if (entry.isIntersecting) {
-        this.renderer.addClass(entry.target, 'fade-out');
-      } else if (!entry.isIntersecting && (isAbove || isBelow || isLeft || isRight)) {
-        this.renderer.removeClass(entry.target, 'fade-out');
-      }
-    });
-  
-    observer.observe(element.nativeElement);
-    this.observers.push(observer);
-  }
-
-  //The ngOnDestroy function tells all the robots watching the colored boxes to stop when we're done with the webpage.
-  ngOnDestroy() {
-    this.observers.forEach(obs => obs.disconnect());
+  navigateToHome() {
+    this.router.navigate(['']);
   }
 
   navigateToAboutUs() {
@@ -257,10 +285,5 @@ export class CdkScrollingComponent {
 
   pageReload() {
     window.location.reload();
-  }
-
-  paneisrendered(){
-    if (this.isPaneVisible)
-      console.log('paneisrendered');
   }
 }

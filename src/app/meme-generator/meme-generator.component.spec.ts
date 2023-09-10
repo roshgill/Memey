@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TitleComponent } from './title.component';
+import { MemeGeneratorComponent } from './meme-generator.component';
 
-describe('TitleComponent', () => {
-  let component: TitleComponent;
-  let fixture: ComponentFixture<TitleComponent>;
+describe('MemeGeneratorComponent', () => {
+  let component: MemeGeneratorComponent;
+  let fixture: ComponentFixture<MemeGeneratorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TitleComponent ]
+      declarations: [ MemeGeneratorComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TitleComponent);
+    fixture = TestBed.createComponent(MemeGeneratorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

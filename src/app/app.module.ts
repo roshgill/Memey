@@ -4,21 +4,36 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-
-import { AppComponent } from './app.component';
-import { CdkScrollingComponent } from './cdk-scrolling/cdk-scrolling.component';
-import { TitleComponent } from './title/title.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { FormsModule } from '@angular/forms';
+
+import { AppComponent } from './app.component';
+import { HomepageComponent } from './homepage/homepage.component';
+import { CdkScrollingComponent } from './cdk-scrolling/cdk-scrolling.component';
 import { AboutUsComponent } from './about-us/about-us.component';
+import { DmcaComponent } from './dmca/dmca.component';
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
+import { NotSupportedComponent } from './not-supported/not-supported.component';
+import { ThemeDirective } from './theme.directive';
+import { TestingComponent } from './testing/testing.component';
+import { MemeGeneratorComponent } from './meme-generator/meme-generator.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CdkScrollingComponent,
-    TitleComponent,
     AboutUsComponent,
+    HomepageComponent,
+    DmcaComponent,
+    TermsAndConditionsComponent,
+    NotSupportedComponent,
+    ThemeDirective,
+    TestingComponent,
+    MemeGeneratorComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,8 +41,11 @@ import { AboutUsComponent } from './about-us/about-us.component';
     BrowserAnimationsModule,
     NgxMasonryModule,
     ScrollingModule,
+    InfiniteScrollModule,
+    FormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideStorage(() => getStorage())
+    provideStorage(() => getStorage()),
+    provideFirestore(() => getFirestore())
   ],
   schemas: [],
   providers: [],

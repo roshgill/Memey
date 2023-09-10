@@ -1,31 +1,47 @@
 <!-- Problem Page -->
 
-<div class="page" id="problemPage" data-aos="fade-up" data-aos-duration="2000">
+<div class="page" id="problemPage" data-aos="fade-down" data-aos-duration="1800">
   <button class="div1" (click)="navigateToHome()">
     <h1>MEMEY</h1>
   </button>
-  <h2>🤔 The Problem:</h2>
+  <h2>👋 Welcome:</h2>
   <ul class="bullet-points">
-    <li class="paragraph">Today's internet is like a wild rollercoaster ride 🎢.</li>
-    <li class="paragraph">It's jam-packed with news, social media, ads, and a million other things.</li>
-    <li class="paragraph">One minute you're laughing 😂, the next you're shocked 😱 or stressed 😰.</li>
+    <li class="paragraph">Welcome to Memey, where our goal is fun. 🎢</li>
   </ul>
 </div>
 
 <!-- Solution Page -->
-<div class="page" id="solutionPage" data-aos="fade-up" data-aos-duration="2500">
-  <h2>😏 The Solution: Memey</h2>
+<div class="page" id="solutionPage" data-aos="fade-left" data-aos-duration="1800">
+  <h2>🎯 Purpose:</h2>
   <ul class="bullet-points">
-    <li class="paragraph">Ever dreamed of an online space purely for fun?</li>
-    <li class="paragraph">That's what Memey is all about.</li>
-    <li class="paragraph">We have one simple goal: to provide a space for pure enjoyment and laughter. 🎉</li>
+    <li class="paragraph">We're not trying to solve any problem (or save the world).</li>
+    <li class="paragraph">Our single purpose: to create a space for joy and amusement. 🎪🥳</li>
   </ul>
 </div>
 
-<div class="page" id="joinPage" data-aos="fade-up" data-aos-duration="2200">
-  <h2>👋 Join Us:</h2>
+<div class="page" id="joinPage" data-aos="fade-right" data-aos-duration="1800">
+  <h2>🎉 Join Us:</h2>
   <ul class="bullet-points">
-    <li class="paragraph">Slide over to Memey and discover a refreshing kind of internet.</li>
-    <li class="paragraph">An internet that's all about fun! 🎈🎊</li>
+    <li class="paragraph">Stay tuned for our fun creations! 😎</li>
+    <li class="paragraph">Thanks for sharing in the joy of Memey with us.</li>
+
+
+    <form #usersEmail="ngForm" style="margin-top: 30px;" (ngSubmit)="OnSubmit(usersEmail)">
+      <div class="form-group">
+        <label style="color: white; font-weight: 400;">Email Address:</label>
+        <input type="email" #firstEmail="ngModel" [class.is-invalid]="firstEmail.invalid && firstEmail.touched" 
+        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" class="form-control" name="primaryEmail" 
+        [(ngModel)]="userModel.primaryAddress"/>
+      </div>
+      <div *ngIf="firstEmail.errors && (firstEmail.invalid || firstEmail.touched)">
+        <small class="text-danger" *ngIf="firstEmail.errors['pattern']">Please provide a valid email address</small>
+      </div>
+      <button class="submit-button" type="submit">
+        <h2>Submit</h2>
+      </button>
+    </form>
+    <button class="submit-button" type="submit" (click)="navigateToHome()"> 
+      <h2>Return Home</h2>
+    </button>
   </ul>
 </div>

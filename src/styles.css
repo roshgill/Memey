@@ -2,7 +2,9 @@
 html, body
 {
     background-color: rgb(17, 17, 17);
-    cursor: url('/assets/cursor2.png'), pointer;
     /* max-width: 100%;
     overflow-x: hidden; */
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
