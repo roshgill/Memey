@@ -19,8 +19,8 @@ import { TweetManagerService } from 'src/app/services/tweetmanager.service';
 export class HomepageComponent {
 
   // Selected tweets for display
-  selectedTweet0: string | undefined;
-  selectedTweet1: string | undefined;
+  public selectedTweet0: string | undefined;
+  public selectedTweet1: string | undefined;
 
   // ViewChildren for accessing DOM elements
   @ViewChild('scrollcontainer', { static: true }) scrollcontainer!: ElementRef;
@@ -59,11 +59,15 @@ export class HomepageComponent {
   }
 
   ngOnInit() {
-    const tweets = this.tweetManagerService.randomizeTweet();
-    this.selectedTweet0 = tweets.tweet0;
-    this.selectedTweet1 = tweets.tweet1;
+    let reloadIntervalId: any;
+    const reloadInterval = 10;
 
-    // Check the height of the tweet container every second: Stick trending container midway based off tweetContainer0 Height
+    reloadIntervalId = setInterval(async () => { 
+      const tweets = await this.tweetManagerService.randomizeTweet();
+      this.selectedTweet0 = tweets.tweet0;
+      this.selectedTweet1 = tweets.tweet1;
+    }, reloadInterval * 1000);
+
     const checkHeightInterval = setInterval(() => {
       const tweetContainer0Height = this.tweetContainer0.nativeElement.offsetHeight;
 
@@ -72,7 +76,18 @@ export class HomepageComponent {
         this.renderer2.setStyle(this.trendingContainer.nativeElement, 'top', `${topPosition}px`);
         clearInterval(checkHeightInterval);
       }
-    }, 1000);
+    }, 1000); // Check every 1000ms
+  }
+
+  ngAfterContentInit() {
+    let reloadIntervalId: any;
+    const reloadInterval = 10;
+
+    reloadIntervalId = setInterval(async () => { 
+      const tweets = await this.tweetManagerService.randomizeTweet();
+      this.selectedTweet0 = tweets.tweet0;
+      this.selectedTweet1 = tweets.tweet1;
+    }, reloadInterval * 1000);
   }
 
   // Handle the scroll down event to load more memes
