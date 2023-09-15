@@ -1,53 +1,55 @@
+//  Firebase imports
 import { Injectable } from '@angular/core';
-import { getStorage, ref, list, getDownloadURL, getMetadata } from "firebase/storage";
-import { LoadMemesParams } from '../interfaces/load-meme-params';
+import { list, getDownloadURL, getMetadata } from "firebase/storage";
 
+//  App-specific imports
+import { LoadMemesParams } from 'src/app/interfaces/load-meme-params';
+
+// Injectable service for managing meme operations
 @Injectable({
   providedIn: 'root'
 })
-export class MemeManagerService implements LoadMemesParams {
+
+export class MemeManagerService {
 
   constructor() { }
 
-  // Load initial images
+  // Fetches the initial set of memes
   async loadInitialImages(memesParams: LoadMemesParams) {
-  
-    for (let i = 0; i < 5; i++) {
-      await this.loadMemes(memesParams);
-    }
+    await this.loadMemes(memesParams);
   }
 
-  // Load memes into the memeImages array
+  // Load a set of memes based on given parameters
   async loadMemes(memesParams: LoadMemesParams) {
     
-    let firstPage;
+    let currentPage;
 
-    // Check if it's the first time loading memes and if there's a page token
+    // Determine pagination approach based on flags and token
     if (!memesParams.firstTimeMemes && !memesParams.memesPageToken) 
       return;
     if (memesParams.firstTimeMemes == true) {
-      firstPage = await list(memesParams.memesListReference, { maxResults: memesParams.imageNum });
+      currentPage = await list(memesParams.memesListReference, { maxResults: memesParams.imageNum });
       memesParams.firstTimeMemes = false;
     }
     else {
-      firstPage = await list(memesParams.memesListReference, { maxResults: memesParams.imageNum, pageToken: memesParams.memesPageToken});
+      currentPage = await list(memesParams.memesListReference, { maxResults: memesParams.imageNum, pageToken: memesParams.memesPageToken});
     }
 
-    // Update page token
-    memesParams.memesPageToken = firstPage.nextPageToken;
+    // Update the pagination token
+    memesParams.memesPageToken = currentPage.nextPageToken;
 
-    // Process each item from first page
-    firstPage.items.forEach((itemRef: any) => {
-      // Get the reference URL for each item
+    // Process and fetch URLs for items in the current page
+    currentPage.items.forEach((itemRef: any) => {
+
+      // Retrieve the image's download URL and metadata
       getDownloadURL(itemRef)
         .then((url) => {
-          // Create a new XMLHttpRequest object
+          // Fetch image blob from URL and extract associated metadata
           const xhr = new XMLHttpRequest();
           xhr.responseType = 'blob';
 
           // Define the onload function for the XMLHttpRequest object
           xhr.onload = () => {
-            // Create a blob from the response
             const blob = xhr.response;
             const imageUrl = URL.createObjectURL(blob);
             getMetadata(itemRef)
@@ -69,6 +71,7 @@ export class MemeManagerService implements LoadMemesParams {
           console.error('Error fetching image:', error);
         });
 
+      // Update the state of the initial load
       if (!memesParams.initialLoadComplete) {
         memesParams.initialLoadComplete = Promise.resolve();
         memesParams.promiseState = 'loaded';
@@ -76,6 +79,7 @@ export class MemeManagerService implements LoadMemesParams {
     });
   }
 
+  // Resets the meme parameters to their initial states
   resetData(memesParams: LoadMemesParams) {
     memesParams.initialLoadComplete = undefined;
     memesParams.firstTimeMemes = true;
