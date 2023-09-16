@@ -1,19 +1,18 @@
 
 .main-container {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin: 40px 120px;
 }
 
 .logo-container {
-  display: inline-block;
   background: none;
   border: none;
   cursor: pointer;
+  display: inline-block;
   margin-left: 55px;
   margin-top: 30px;
-
 }
 
 .logo-text {
@@ -22,52 +21,10 @@
   padding: 0;
 }
 
-h1 {
-  font-size: 40px;
-  letter-spacing: -3.5px;
-  color: white;
-  font-weight: 400;
-  text-transform: uppercase;
-  margin: 0;
-  padding: 0;
-}
-
-h2 {
-  font-size: 27px;
-  letter-spacing: -0.6px;
-  color: white;
-  font-weight: 400;
-  text-transform: uppercase;
-  margin: 0;
-  padding: 0;
-}
-
-h3 {
-  font-size: 14px;
-  letter-spacing: -0.6px;
-  font-weight: 400;
-  text-transform: uppercase;
-  margin: 0;
-  padding: 0;
-}
-
-h4 {
-  font-family: "Arial Black", Gadget, sans-serif;
-  font-size: 60px;
-  letter-spacing: -6.5px;
-  color: #FFFFFF;
-  font-weight: 400;
-  font-style: normal;
-  font-variant: normal;
-  text-transform: uppercase;
-  margin: 0;
-  padding: 0;
-}
-
 p {
   font-size: 14px;
-  letter-spacing: -0.6px;
   font-weight: 400;
+  letter-spacing: -0.6px;
   margin: 20px 10px;
 }
 
@@ -79,4 +36,46 @@ p {
 
 .policy-points {
   color: white;
+}
+
+h1 {
+  color: white;
+  font-size: 40px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -3.5px;
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  color: white;
+  font-size: 27px;
+  font-weight: 400;
+  letter-spacing: -0.6px;
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
+}
+
+h3 {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.6px;
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
+}
+
+h4 {
+  color: #FFFFFF;
+  font-family: "Arial Black", Gadget, sans-serif;
+  font-size: 60px;
+  font-weight: 400;
+  font-style: normal;
+  font-variant: normal;
+  letter-spacing: -6.5px;
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
 }

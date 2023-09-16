@@ -3,12 +3,12 @@ import { Directive, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { Subscription } from 'rxjs';
 
-// Decorator to mark it as a directive and define its selector
 @Directive({
   selector: '[appTheme]'
 })
 
 export class ThemeDirective implements OnInit, OnDestroy {
+  
   // Declare a Subscription to keep track of theme changes
   private darkThemeSubscription!: Subscription;
 
@@ -30,7 +30,7 @@ export class ThemeDirective implements OnInit, OnDestroy {
 
   // Function to update the theme of the element
   updateTheme(darkTheme: boolean): void {
-    // Get the class name of the element
+
     const className = this.el.nativeElement.className;
 
     if (darkTheme) {

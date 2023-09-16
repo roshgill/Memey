@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -26,10 +27,18 @@ export class FirebaseConfigurationService {
 
   configureFirebase() {
     const app = initializeApp(this.firebaseConfig);
+    return app;
+  }
+
+  accessStorage(app: any) {
     return getStorage(app);
   }
 
-  referenceFirestoreDatabase(storage: any, path: string) {
+  getFirestoreDatabase(app: any) {
+    return getFirestore(app);
+  }
+
+  referenceFirebaseDatabase(storage: any, path: string) {
     return ref(storage, path)
   }
 }

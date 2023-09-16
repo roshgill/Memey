@@ -1,7 +1,6 @@
-<!-- Problem Page -->
-
-<div class="page" id="problemPage" data-aos="fade-down" data-aos-duration="1800">
-  <button class="div1" (click)="navigationService.navigateToHome()">
+<!-- Introduction Page -->
+<div class="page" data-aos="fade-down" data-aos-duration="1800">
+  <button class="div-title" (click)="navigationService.navigateToHome()">
     <h1>MEMEY</h1>
   </button>
   <h2>👋 Welcome:</h2>
@@ -11,7 +10,7 @@
 </div>
 
 <!-- Solution Page -->
-<div class="page" id="solutionPage" data-aos="fade-left" data-aos-duration="1800">
+<div class="page" data-aos="fade-left" data-aos-duration="1800">
   <h2>🎯 Purpose:</h2>
   <ul class="bullet-points">
     <li class="paragraph">We're not trying to solve any problem (or save the world).</li>
@@ -19,19 +18,19 @@
   </ul>
 </div>
 
-<div class="page" id="joinPage" data-aos="fade-right" data-aos-duration="1800">
+<!-- Join Page -->
+<div class="page" data-aos="fade-right" data-aos-duration="1800">
   <h2>🎉 Join Us:</h2>
   <ul class="bullet-points">
     <li class="paragraph">Stay tuned for our fun creations! 😎</li>
     <li class="paragraph">Thanks for sharing in the joy of Memey with us.</li>
 
-
     <form #usersEmail="ngForm" style="margin-top: 30px;" (ngSubmit)="OnSubmit(usersEmail)">
       <div class="form-group">
         <label style="color: white; font-weight: 400;">Email Address:</label>
         <input type="email" #firstEmail="ngModel" [class.is-invalid]="firstEmail.invalid && firstEmail.touched" 
-        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" class="form-control" name="primaryEmail" 
-        [(ngModel)]="userModel.primaryAddress"/>
+              pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" class="form-control" name="primaryEmail" 
+              [(ngModel)]="userModel.primaryAddress"/>
       </div>
       <div *ngIf="firstEmail.errors && (firstEmail.invalid || firstEmail.touched)">
         <small class="text-danger" *ngIf="firstEmail.errors['pattern']">Please provide a valid email address</small>

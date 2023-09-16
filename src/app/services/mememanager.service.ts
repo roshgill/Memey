@@ -55,13 +55,12 @@ export class MemeManagerService {
             getMetadata(itemRef)
             .then((metadata) => {
               let betaUser = metadata.customMetadata ? metadata.customMetadata['beta-username'] : '';
-              memesParams.memeImages.push({ title: itemRef.name, imageUrl: imageUrl, betaUsername: betaUser });
+              memesParams.memeImages.push({ title: itemRef.name, imageUrl: imageUrl,  color: this.getRandomColor(), betaUsername: betaUser });
             })            
             .catch((error) => {
               console.error('Error fetching metadata:', error);
             });
           };
-
           // Open the XMLHttpRequest object with the GET method and the URL
           xhr.open('GET', url);
           xhr.send();
@@ -70,7 +69,6 @@ export class MemeManagerService {
         .catch((error) => {
           console.error('Error fetching image:', error);
         });
-
       // Update the state of the initial load
       if (!memesParams.initialLoadComplete) {
         memesParams.initialLoadComplete = Promise.resolve();
@@ -89,5 +87,11 @@ export class MemeManagerService {
     memesParams.promiseState = 'pending';
     memesParams.isLoading = false;
     memesParams.isDisabled = true;
+  }
+
+  // Returns random color from provided colors list
+  getRandomColor() {
+    let colors = ['#ED3833', '#1645F5', '#6DED8A', '#F0F14E', '#FF5F85'];
+    return colors[Math.floor(Math.random() * colors.length)];
   }
 }

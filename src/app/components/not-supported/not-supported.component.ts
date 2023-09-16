@@ -1,3 +1,4 @@
+// Angular import
 import { Component } from '@angular/core';
 
 @Component({
@@ -5,6 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './not-supported.component.html',
   styleUrls: ['./not-supported.component.css']
 })
-export class NotSupportedComponent {
 
+export class NotSupportedComponent {
 }

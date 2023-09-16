@@ -48,6 +48,7 @@ export class HomepageComponent {
 
   // Parameters related to memes loading
   memesParams: LoadMemesParams = {
+    app: undefined,
     firstTimeMemes: true,
     imageNum: 25,
     isLoading: false,
@@ -68,9 +69,10 @@ export class HomepageComponent {
     public navigationService: NavigationService,
     private memeManagerService: MemeManagerService, 
   ) {     
-      // Initialize storage and reference from Firebase
-      this.memesParams.storage = this.firebaseConfigurationService.configureFirebase();
-      this.memesParams.memesListReference = this.firebaseConfigurationService.referenceFirestoreDatabase(this.memesParams.storage, 'funny' + '/');
+      // Initialize app, storage and Firestore reference from Firebase
+      this.memesParams.app = this.firebaseConfigurationService.configureFirebase();
+      this.memesParams.storage = this.firebaseConfigurationService.accessStorage(this.memesParams.app);
+      this.memesParams.memesListReference = this.firebaseConfigurationService.referenceFirebaseDatabase(this.memesParams.storage, 'funny' + '/');
       
       // Load the initial set of images
       memeManagerService.loadInitialImages(this.memesParams);
@@ -104,7 +106,7 @@ export class HomepageComponent {
     }
   }
 
-  // Generates two random tweets from the tweetList.
+  // Generates two random tweets from tweetList array
   async randomizeTweet() {
 
     let randomIndex0 = Math.floor(Math.random() * this.tweetList.length);
@@ -125,7 +127,7 @@ export class HomepageComponent {
   // Define a method to handle the meme category selection events
   displayMemesByCategory(category: string) {
     this.memeManagerService.resetData(this.memesParams);
-    this.memesParams.memesListReference = this.firebaseConfigurationService.referenceFirestoreDatabase(this.memesParams.storage, category + '/');
+    this.memesParams.memesListReference = this.firebaseConfigurationService.referenceFirebaseDatabase(this.memesParams.storage, category + '/');
     this.memeManagerService.loadInitialImages(this.memesParams)
     this.scrollcontainer.nativeElement.scrollTop = 0;
   }

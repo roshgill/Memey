@@ -1,21 +1,21 @@
-// Import necessary libraries, services and directives from Angular and Firebase
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+// Angular and Firebase imports
+import { Component, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { collection, addDoc } from "firebase/firestore"; 
+
+// AOS import
 import * as aos from 'aos';
 
+// App-specific imports
 import { NavigationService } from 'src/app/services/navigation.service';
-import { initializeApp } from 'firebase/app';
-import { collection, addDoc } from "firebase/firestore"; 
-import { getFirestore } from "firebase/firestore";
+import { FirebaseConfigurationService } from 'src/app/services/firebaseconfiguration.service';
 
-// Define the Angular component, including its selector, CSS file and HTML template
 @Component({
   selector: 'app-about-us',
   templateUrl: './about-us.component.html',
   styleUrls: ['./about-us.component.css'],
 })
 
-// Define the class for the Angular component
 export class AboutUsComponent implements AfterViewInit {
 
   // 2-way binding between userModel and form input field
@@ -23,33 +23,26 @@ export class AboutUsComponent implements AfterViewInit {
     primaryAddress: '',
   };
 
+  public app: any;
   private db: any;
 
-  // Set up the Firebase app and get references to the Firestore emails database
-  constructor(public navigationService: NavigationService) {
-    const firebaseConfig = {
-      projectId: 'memey-e9b65',
-      appId: '1:693078826607:web:25689a779fc6b129bf779a',
-      storageBucket: 'gs://memey-bucket',
-      locationId: 'us-central',
-      apiKey: 'AIzaSyCEaqo_JnonmlskbDK30QOpVo3KdA-YZR4',
-      authDomain: 'memey-e9b65.firebaseapp.com',
-      messagingSenderId: '693078826607',
-      measurementId: 'G-GDWWNE42TH',
-  }
-    const app = initializeApp(firebaseConfig);
-    this.db = getFirestore(app);
+  constructor(
+    public navigationService: NavigationService, 
+    public firebaseConfigurationService: FirebaseConfigurationService
+  ) {
+    this.app = this.firebaseConfigurationService.configureFirebase();
+    this.db = this.firebaseConfigurationService.getFirestoreDatabase(this.app);
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
       aos.init();
-    }, 300); // delay of 500 milliseconds
+    }, 300);
   }
-  
 
   // Sends user email address to Firestore database
   async OnSubmit(usersEmail: NgForm) {
+    
     // If userEmail is a valid email and the input field is not empty
     if (usersEmail.valid && this.userModel.primaryAddress != '')
     {
@@ -66,5 +59,4 @@ export class AboutUsComponent implements AfterViewInit {
       this.userModel.primaryAddress = '';
     }
   }
-
 }
