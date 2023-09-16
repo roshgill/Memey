@@ -1,6 +1,5 @@
 // Angular & Firebase imports
 import { Component, ViewChild, Renderer2, ElementRef} from '@angular/core';
-import { ref } from "firebase/storage";
 
 // App-specific imports
 import { FirebaseConfigurationService } from 'src/app/services/firebaseconfiguration.service';
@@ -8,7 +7,8 @@ import { LoadMemesParams } from 'src/app/interfaces/load-meme-params';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { MemeManagerService } from 'src/app/services/mememanager.service';
 import { ThemeService } from 'src/app/services/theme.service';
-import { TweetManagerService } from 'src/app/services/tweetmanager.service';
+
+declare var twttr: any;
 
 @Component({
   selector: 'app-homepage',
@@ -17,6 +17,25 @@ import { TweetManagerService } from 'src/app/services/tweetmanager.service';
 })
 
 export class HomepageComponent {
+
+  tweetList: string[] = [
+    'https://twitter.com/cb_doge/status/1678399673407504386?ref_src=twsrc%5Etfw',
+    'https://twitter.com/DeadpoolUpdate/status/1678427696580231168',
+    'https://twitter.com/PokemonGoApp/status/1678143240694816768',
+    'https://twitter.com/Mlickles/status/1678208813684465667',
+    'https://twitter.com/PokemanZ0N6/status/1678468426950483968',
+    'https://twitter.com/BillyM2k/status/1678439033641529344',
+    'https://twitter.com/MattWallace888/status/1678098475915919360',
+    'https://twitter.com/upblissed/status/1678250341417009153',
+    'https://twitter.com/upblissed/status/1678135296150347779',
+    'https://twitter.com/DankMemesGlobal/status/1246868153683939334',
+    'https://twitter.com/DankMemesGlobal/status/1338158985640255493',
+    'https://twitter.com/theMemesBot/status/1672283558294196224',
+    'https://twitter.com/buitengebieden/status/1678454914484248599',
+    'https://twitter.com/Slakonbothsides/status/1678040395580686336',
+    'https://twitter.com/barstoolsports/status/1678130723717365762',
+    'https://twitter.com/BillyM2k/status/1677737855827988480'
+  ];
 
   // Selected tweets for display
   public selectedTweet0: string | undefined;
@@ -48,7 +67,6 @@ export class HomepageComponent {
     private themeService: ThemeService, 
     public navigationService: NavigationService,
     private memeManagerService: MemeManagerService, 
-    private tweetManagerService: TweetManagerService 
   ) {     
       // Initialize storage and reference from Firebase
       this.memesParams.storage = this.firebaseConfigurationService.configureFirebase();
@@ -59,35 +77,21 @@ export class HomepageComponent {
   }
 
   ngOnInit() {
-    let reloadIntervalId: any;
     const reloadInterval = 10;
-
-    reloadIntervalId = setInterval(async () => { 
-      const tweets = await this.tweetManagerService.randomizeTweet();
-      this.selectedTweet0 = tweets.tweet0;
-      this.selectedTweet1 = tweets.tweet1;
-    }, reloadInterval * 1000);
-
+    let reloadIntervalId = setInterval(() => { this.randomizeTweet() }, reloadInterval * 1000);
+    
     const checkHeightInterval = setInterval(() => {
-      const tweetContainer0Height = this.tweetContainer0.nativeElement.offsetHeight;
-
+    const tweetContainer0Height = this.tweetContainer0.nativeElement.offsetHeight;
       if (tweetContainer0Height !== 0) {
         const topPosition = ((-1) * (tweetContainer0Height + 100 - 7 - 117.8));
         this.renderer2.setStyle(this.trendingContainer.nativeElement, 'top', `${topPosition}px`);
         clearInterval(checkHeightInterval);
       }
-    }, 1000); // Check every 1000ms
+    }, 1000); // Check every 100ms
   }
 
   ngAfterContentInit() {
-    let reloadIntervalId: any;
-    const reloadInterval = 10;
-
-    reloadIntervalId = setInterval(async () => { 
-      const tweets = await this.tweetManagerService.randomizeTweet();
-      this.selectedTweet0 = tweets.tweet0;
-      this.selectedTweet1 = tweets.tweet1;
-    }, reloadInterval * 1000);
+    this.randomizeTweet();
   }
 
   // Handle the scroll down event to load more memes
@@ -98,6 +102,24 @@ export class HomepageComponent {
         this.memesParams.isLoading = false;
       });
     }
+  }
+
+  // Generates two random tweets from the tweetList.
+  async randomizeTweet() {
+
+    let randomIndex0 = Math.floor(Math.random() * this.tweetList.length);
+    let randomIndex1;
+    do {
+      randomIndex1 = Math.floor(Math.random() * this.tweetList.length);
+    } while (randomIndex0 === randomIndex1);    
+
+    this.selectedTweet0 = this.tweetList[randomIndex0];
+    this.selectedTweet1 = this.tweetList[randomIndex1];
+
+    twttr.widgets.load(
+      document.getElementById("tweetContainer0"),
+      document.getElementById("tweetContainer1")
+    );
   }
 
   // Define a method to handle the meme category selection events
