@@ -20,6 +20,7 @@ import { TermsAndConditionsComponent } from './components/terms-and-conditions/t
 import { NotSupportedComponent } from './components/not-supported/not-supported.component';
 import { ThemeDirective } from './directives/theme/theme.directive';
 import { MemeGeneratorComponent } from './components/meme-generator/meme-generator.component';
+import { ContentCleanComponent } from './content-clean/content-clean.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { MemeGeneratorComponent } from './components/meme-generator/meme-generat
     NotSupportedComponent,
     ThemeDirective,
     MemeGeneratorComponent,
+    ContentCleanComponent,
   ],
   imports: [
     BrowserModule,

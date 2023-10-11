@@ -7,15 +7,17 @@ import { DmcaComponent } from './components/dmca/dmca.component';
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
 import { NotSupportedComponent } from './components/not-supported/not-supported.component';
 import { MemeGeneratorComponent } from './components/meme-generator/meme-generator.component';
+import { ContentCleanComponent } from './content-clean/content-clean.component';
 
 const routes: Routes = [
+  { path: 'content-clean', component: ContentCleanComponent },
   { path: 'dungeon', component: CdkScrollingComponent },
   { path: 'about-us', component: AboutUsComponent },
   { path: 'dmca', component: DmcaComponent },
   { path: 'terms-conditions', component: TermsAndConditionsComponent },
   { path: 'not-supported', component: NotSupportedComponent },
   { path: 'meme-generator', component: MemeGeneratorComponent },
-  { path: '', component: HomepageComponent, pathMatch: 'full' }
+  { path: '', component: ContentCleanComponent, pathMatch: 'full' }
 ];
 
 @NgModule({
