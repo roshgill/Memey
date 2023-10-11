@@ -12,15 +12,15 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { HomepageComponent } from './homepage/homepage.component';
-import { CdkScrollingComponent } from './cdk-scrolling/cdk-scrolling.component';
-import { AboutUsComponent } from './about-us/about-us.component';
-import { DmcaComponent } from './dmca/dmca.component';
-import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
-import { NotSupportedComponent } from './not-supported/not-supported.component';
-import { ThemeDirective } from './theme.directive';
-import { TestingComponent } from './testing/testing.component';
-import { MemeGeneratorComponent } from './meme-generator/meme-generator.component';
+import { HomepageComponent } from './components/homepage/homepage.component';
+import { CdkScrollingComponent } from './components/cdk-scrolling/cdk-scrolling.component';
+import { AboutUsComponent } from './components/about-us/about-us.component';
+import { DmcaComponent } from './components/dmca/dmca.component';
+import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
+import { NotSupportedComponent } from './components/not-supported/not-supported.component';
+import { ThemeDirective } from './directives/theme/theme.directive';
+import { MemeGeneratorComponent } from './components/meme-generator/meme-generator.component';
+import { ContentCleanComponent } from './content-clean/content-clean.component';
 
 @NgModule({
   declarations: [
@@ -32,8 +32,8 @@ import { MemeGeneratorComponent } from './meme-generator/meme-generator.componen
     TermsAndConditionsComponent,
     NotSupportedComponent,
     ThemeDirective,
-    TestingComponent,
     MemeGeneratorComponent,
+    ContentCleanComponent,
   ],
   imports: [
     BrowserModule,

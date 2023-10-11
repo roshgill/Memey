@@ -1,0 +1,104 @@
+<div *ngIf="passwordcorrect; then thenBlock else elseBlock"></div>
+
+<ng-template #elseBlock>
+    <div class="center-screen">
+        <div>
+            <h2 class="heading-style" style="font-size: 24px;">Coded</h2>
+            <input type="password" [(ngModel)]="password">
+        </div>
+        <button style="display:block; margin-top: 10px; width: 150px; margin-left: auto; margin-right: auto;" (click)="comparePassword()">Submit</button>
+    </div>
+</ng-template>
+
+<ng-template #thenBlock>
+    <!-- Container div for the entire page -->
+<div #thenBlock class="container1">
+    <div appTheme class="header">
+            <button class="header-divs div0" (click)="navigationService.pageReload()">
+                <h1 class="heading-style">MEMEY</h1>
+            </button>
+            <button class="header-divs div1" (click)="navigationService.pageReload()">
+                <h2 class="heading-style line blue">HOME</h2>
+            </button>
+            <button class="header-divs div2">
+                <h2 class="heading-style line red">ENTER THY DUNGEON</h2>
+            </button>
+            <button class="header-divs div3">
+                <h2 class="heading-style line green">ABOUT US</h2>
+            </button>
+            <div class="div5">
+                <h2 class="heading-style">{{toDeleteNum}} Selected</h2>
+                <button appTheme class="navi-button" style="width: auto; margin-top: 5px;" (click)="deleteMemes()">
+                    <h3 class="heading-style">Delete</h3>
+                </button>
+            </div>
+    </div>
+
+    <div appTheme class="nav">
+        <div class="div4">
+            <h2 class="heading-style" style="font-size: 24px;">NEW FEATURES COMING SOON!</h2>
+        </div>
+        <div appTheme class="nav-rounded-box">
+            <button appTheme class="navi-button" (click)="navigationService.pageReload()">
+                <h3 class="heading-style">Funny</h3>
+            </button>
+            <button appTheme class="navi-button" (click)="displayMemesByCategory('dank')">
+                <h3 class="heading-style">Dank</h3>
+            </button>
+            <button appTheme class="navi-button" (click)="displayMemesByCategory('gaming')">
+                <h3 class="heading-style">Gaming</h3>
+            </button>
+            <button appTheme class="navi-button" (click)="displayMemesByCategory('sports')">
+                <h3 class="heading-style">Sports</h3>
+            </button>
+            <button appTheme class="navi-button" (click)="enableColorTheme()">
+                <h3 class="heading-style">Color Mode</h3>
+            </button>
+            <button appTheme class="navi-button" (click)="enableDarkTheme()">
+                <h3 class="heading-style">Dark Mode</h3>
+            </button>
+        </div>
+        <div class="legal-container">
+            <button class="dmca-button">
+                <h4 class="heading-style">DMCA</h4>
+            </button>
+            <button class="terms-of-service-button">
+                <h4 class="heading-style">Terms Of Service</h4>
+            </button>
+        </div>
+    </div>
+    <div #scrollcontainer class="content" (scroll)="onScroll($event)">
+        <div class="infinite-scroll-container" infiniteScroll
+            [infiniteScrollDistance]="2"
+            [infiniteScrollThrottle]="50">
+           <div *ngFor="let meme of memesParams.memeImages" style="display: inline-block;">
+               <div class="card text-white bg-dark mb-3" style="max-width: 18r; padding-bottom: 0px;">
+                    <div class="card-header" style="padding-top: 2px; padding-bottom: 1px;">
+                        <h3 class="heading-style" style="font-size: 20px;">Memey</h3>
+                        <h4 class="heading-style" style="font-size: 12px; padding-top: 2px;">Beta User: {{meme.betaUsername}}</h4>
+                    </div>
+                    <div class="card-body text-success" style="padding-top: 10px; padding-bottom: 0px;">
+                        <img class="meme-image" [src]="meme.imageUrl">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" style="width: 25px; height: 25px;" type="checkbox" value="" id="flexCheckDefault" (change)="boxChecked($event, meme.title)">
+                        <label class="form-check-label" style="font-size: 20px;"for="flexCheckDefault">
+                          DELETE
+                        </label>
+                    </div>
+                </div>
+           </div>
+        </div>
+        <div #trendingContainer class="trending">
+            <div class="fade-in">
+                <div #tweetContainer0>
+                    <blockquote class="twitter-tweet" data-lang="en" data-theme="dark"> <a [href]="selectedTweet0"></a></blockquote><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+                <div #tweetContainer1>
+                    <blockquote class="twitter-tweet" data-lang="en" data-theme="dark"> <a [href]="selectedTweet1"></a></blockquote><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</ng-template>

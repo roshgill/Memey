@@ -1,0 +1,157 @@
+.dungeon-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.6fr 4fr;
+  grid-template-areas:
+    "header"
+    "content";;
+  height: 100vh;
+}
+
+.header { 
+  background-color:#212529;
+  display: flex;
+  flex-direction: row;
+  grid-area: header;
+}
+
+.content {
+  grid-area: content;
+  justify-content: center;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+.ngx-masonry {
+  margin-left: 30px; 
+  margin-top: 15px;
+  width: 100%;
+}
+
+.ngx-masonry-item {
+  margin: 6px;
+  position: relative;
+  width: 31.2%;
+}
+
+.header-divs {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.div-title {
+  display: inline-block;
+  margin-top: 20px;
+  margin-left: 55px;
+  margin-right: 45px;
+}
+
+.div-home {
+  display: inline-block;
+  margin-top: 35px;
+  margin-right: 20px;
+}
+
+.div-dungeon {
+  display: inline-block;
+  margin-top: 35px;
+  margin-right: 20px;
+}
+
+.div-aboutus { 
+  display: inline-block;
+  margin-top: 35px;
+  margin-right: 110px;
+}
+
+.heading-style {
+  color: white;
+  font-style: normal;
+  font-family: "Arial Black", Gadget, sans-serif;
+  font-weight: 400;
+  font-variant: normal;
+  letter-spacing: -0.6px;
+  text-decoration: none;
+  text-transform: uppercase;
+  word-spacing: -1px;
+}
+
+h1.heading-style {
+  font-size: 60px;
+  letter-spacing: -6.5px;
+}
+
+h2.heading-style {
+  font-size: 27px;
+}
+
+.transition {
+  opacity: 0;
+  transition: opacity 2.3s;
+}
+
+.line:hover {
+  cursor: url('/assets/cursor4.png'), auto;
+}
+  
+.line {
+  border-width: 10px;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 8px;
+}
+  
+.line::before {
+  bottom: 0;
+  content: '';
+  height: 4.5px;
+  left: 0;
+  position: absolute;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.line.gray::before {
+  background-color: gray; /* Gray color */
+}
+
+.line.red::before {
+  background-color: #ED3833; /* Red color */
+}
+
+.line.yellow::before {
+  background-color: yellow; /* Yellow color */
+}
+
+.line:hover::before {
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+.line::after {
+  bottom: 0;
+  content: '';
+  height: 4.5px;
+  position: absolute;
+  right: 0;
+  transition: all 0.3s ease;
+  width: 0;
+}
+
+.line.gray::after {
+  background-color: gray; /* Gray color */
+}
+
+.line.red::after {
+  background-color: #ED3833; /* Red color */
+}
+
+.line.yellow::after {
+  background-color: yellow; /* Yellow color */
+}
+
+.line:hover::after {
+  transition: width 0.3s ease 0.3s; /* Starts transition after a delay of 0.3s */
+  width: 100%;
+}

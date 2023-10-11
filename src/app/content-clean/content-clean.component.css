@@ -1,0 +1,262 @@
+.container1 {  
+    display: grid;
+    grid-template-columns: minmax(0, 310px) 1fr;
+    grid-template-rows: 0.6fr 4fr;
+    gap: 0px 5px;
+    grid-template-areas:
+      "header header"
+      "nav content";;
+    height: 100vh; /* Or whatever height you want */
+  }
+  
+  .header { 
+    grid-area: header;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .nav { 
+    grid-area: nav;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  
+  .content { 
+    grid-area: content;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    overflow-x: hidden;
+  }
+  
+  .header-divs {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .div0 {
+    display: inline-block;
+    margin-top: 20px;
+    margin-left: 55px;
+    margin-right: 45px;
+  }
+  
+  .div1 {
+    display: inline-block;
+    margin-top: 35px;
+    margin-right: 20px;
+  }
+  
+  .div2 {
+    display: inline-block;
+    margin-top: 35px;
+    margin-right: 20px;
+  }
+  
+  .div3 {
+    display: inline-block;
+    margin-top: 35px;
+    margin-right: 110px;
+  }
+    
+  .div4 {
+    display: inline-block;
+    margin-left: 65px;
+    margin-top: -10px;
+  }
+
+  .div5 {
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+    margin-top: 45px;
+    margin-bottom: 15px;
+  }
+  
+  .nav-rounded-box {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 70%; 
+    border-radius: 12px;
+    margin-left: 25px; 
+    align-items: center;
+  }
+  
+  .navi-button {
+    display: inline-block;
+    background-color: black;
+    margin-top: 25px;
+    width: 130px;
+    height: auto;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  
+  .legal-container {
+    display: flex;
+    flex-direction: row;
+    background-color: none;
+    margin-top: 20px;
+    margin-left: 25px; 
+  }
+  
+  .dmca-button {
+    display: inline-block;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .terms-of-service-button {
+    display: inline-block;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .infinite-scroll-container {
+    position: relative;
+    width: 630px;
+    margin-top: 15px;
+    margin-left: 5px;
+  }
+  
+  .meme-image {
+    height: 100%;
+    width: 610px;
+    margin-bottom: 20px;
+  }
+  
+  .trending {
+    display: flex;
+    position: sticky;
+    top: 15px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 10px;
+    margin-left: 6%;
+  }
+  
+  .fade-in {
+    width: 370px;
+    margin-top: 2.5px;
+    animation-name: fadeIn;
+    animation-duration: 2s;
+  }
+  
+  @keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  
+  .heading-style {
+    font-style: normal;
+    font-family: "Arial Black", Gadget, sans-serif;
+    font-weight: 400;
+    font-variant: normal;
+    letter-spacing: -0.6px;
+    word-spacing: -1px;
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+  
+  }
+  
+  h1.heading-style {
+    font-size: 60px;
+    letter-spacing: -6.5px;
+  }
+  
+  h2.heading-style {
+    font-size: 27px;
+  }
+  
+  h3.heading-style {
+    font-size: 18px;
+  }
+  
+  h4.heading-style {
+    font-size: 14px;
+  }
+  
+    .line:hover {
+      cursor: url('/assets/cursor4.png'), auto;
+    }
+    
+    .line {
+      position: relative;
+      display: inline-block;
+      padding-bottom: 8px;
+      border-width: 10px;
+    }
+    
+    .line::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4.5px;
+      transition: all 0.3s ease;
+    }
+    
+    .line.red::before {
+      background-color: #ED3833; /* Red color */
+    }
+    
+    .line.blue::before {
+      background-color: gray; /* Blue color */
+    }
+    
+    .line.green::before {
+      background-color: yellow; /* Blue color */
+    }
+    
+    .line:hover::before {
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    
+    .line::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 0;
+      height: 4.5px;
+      transition: all 0.3s ease;
+    }
+    
+    .line.red::after {
+      background-color: #ED3833; /* Red color */
+    }
+    
+    .line.blue::after {
+      background-color: gray; /* Blue color */
+    }
+    
+    
+    .line.green::after {
+      background-color: yellow; /* Blue color */
+    }
+    
+    .line:hover::after {
+      width: 100%;
+      transition: width 0.3s ease 0.3s; /* Starts transition after a delay of 0.3s */
+    }
+
+
+.center-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    height: 100vh;
+    padding: 20px;
+  }  

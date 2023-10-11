@@ -1,0 +1,75 @@
+ .page {
+  align-items: center;
+  background-color: rgb(17, 17, 17);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  text-align: center;
+}
+
+.div-title { 
+  background: none;
+  border: none;
+  cursor: pointer;
+  display:inline-block; 
+  height: 100px; 
+  left:65px; 
+  margin: 0;
+  position:fixed; 
+  padding: 0;
+  top: 20px;
+  width: 100%;
+}
+
+.paragraph {
+  color: #FFFFFF;
+  font-family: "Arial Black", Gadget, sans-serif;
+  font-size: 23px;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+.bullet-points {
+  list-style-type: none;
+  margin-left: 20px;
+}
+
+.bullet-points li {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.submit-button {
+  background-color: yellowgreen;
+  display: inline-block;
+  margin-top: 15px;
+}
+
+h1 {
+  color: #FFFFFF;
+  display: flex;  /* change from inline-block to flex */
+  font-family: "Arial Black", Gadget, sans-serif;
+  font-size: 60px;
+  font-weight: 400;
+  font-style: normal;
+  font-variant: normal;
+  letter-spacing: -6.5px;
+  line-height: 40px; /* add this line */
+  margin-top: 12px;
+  margin-bottom: 16px;
+  margin-left: -2px;
+  margin-right: 4px;
+  text-transform: uppercase;
+}
+
+h2 {
+  color: #FFFFFF;
+  font-family: "Arial Black", Gadget, sans-serif;
+  font-size: 27px;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000000;
+}

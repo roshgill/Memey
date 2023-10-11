@@ -1,0 +1,247 @@
+.main-container{  
+  display: grid;
+  grid-template-columns: minmax(0, 310px) 1fr;
+  grid-template-rows: 0.6fr 4fr;
+  gap: 0px 5px;
+  grid-template-areas:
+    "header header"
+    "nav content";;
+  height: 100vh;
+}
+
+.header { 
+  display: flex;
+  grid-area: header;
+  flex-direction: row;
+}
+
+.nav { 
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  grid-area: nav;
+  justify-content: space-evenly;
+}
+
+.content { 
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  grid-area: content;
+  overflow-x: hidden;
+}
+
+.header-divs {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.div-title {
+  display: inline-block;
+  margin-top: 20px;
+  margin-left: 55px;
+  margin-right: 45px;
+}
+
+.div-home {
+  display: inline-block;
+  margin-top: 35px;
+  margin-right: 20px;
+}
+
+.div-dungeon {
+  display: inline-block;
+  margin-top: 35px;
+  margin-right: 20px;
+}
+
+.div-aboutus { 
+  display: inline-block;
+  margin-top: 35px;
+  margin-right: 110px;
+}
+
+.div-digitalverse {
+  display: inline-block;
+  margin-top: 35px;
+  margin-bottom: 8px;
+}
+
+.div-new-features {
+  display: inline-block;
+  margin-left: 65px;
+  margin-top: -10px;
+}
+
+.nav-rounded-box {
+  align-items: center;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  height: 70%;
+  margin-left: 25px; 
+  width: 50%;
+}
+
+.navi-button {
+  background-color: black;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-block;
+  height: auto;
+  margin-top: 25px;
+  width: 130px;
+}
+
+.legal-container {
+  background-color: none;
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  margin-left: 25px; 
+}
+
+.dmca-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.terms-of-service-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.infinite-scroll-container {
+  margin-top: 15px;
+  margin-left: 5px;
+  position: relative;
+  width: 630px;
+}
+
+.meme-image {
+  height: 100%;
+  margin-bottom: 20px;
+  width: 610px;
+}
+
+.trending {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 10px;
+  margin-left: 6%;
+  position: sticky;
+  /* top: -625px; */
+}
+
+.fade-in {
+  animation-name: fadeIn;
+  animation-duration: 2s;
+  margin-top: 2.5px;
+  width: 370px;
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+.heading-style {
+  color: white;
+  font-style: normal;
+  font-family: "Arial Black", Gadget, sans-serif;
+  font-weight: 400;
+  font-variant: normal;
+  letter-spacing: -0.6px;
+  text-decoration: none;
+  text-transform: uppercase;
+  word-spacing: -1px;
+}
+
+h1.heading-style {
+  font-size: 60px;
+  letter-spacing: -6.5px;
+}
+
+h2.heading-style {
+  font-size: 27px;
+}
+
+h3.heading-style {
+  font-size: 18px;
+}
+
+h4.heading-style {
+  font-size: 14px;
+}
+
+.line:hover {
+  cursor: url('/assets/cursor4.png'), auto;
+}
+  
+.line {
+  border-width: 10px;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 8px;
+}
+  
+.line::before {
+  bottom: 0;
+  content: '';
+  height: 4.5px;
+  left: 0;
+  position: absolute;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.line.gray::before {
+  background-color: gray; /* Gray color */
+}
+
+.line.red::before {
+  background-color: #ED3833; /* Red color */
+}
+
+.line.yellow::before {
+  background-color: yellow; /* Yellow color */
+}
+
+.line:hover::before {
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+.line::after {
+  bottom: 0;
+  content: '';
+  height: 4.5px;
+  position: absolute;
+  right: 0;
+  transition: all 0.3s ease;
+  width: 0;
+}
+
+.line.gray::after {
+  background-color: gray; /* Gray color */
+}
+
+.line.red::after {
+  background-color: #ED3833; /* Red color */
+}
+
+.line.yellow::after {
+  background-color: yellow; /* Yellow color */
+}
+
+.line:hover::after {
+  transition: width 0.3s ease 0.3s; /* Starts transition after a delay of 0.3s */
+  width: 100%;
+}

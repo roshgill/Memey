@@ -1,0 +1,34 @@
+<div class="dungeon-grid">
+  <div appTheme class="header">
+    <button class="header-divs div-title" (click)="navigationService.pageReload()">
+        <h1 class="heading-style">MEMEY</h1>
+    </button>
+    <button class="header-divs div-home" (click)="navigationService.navigateToHome()">
+        <h2 class="heading-style line gray">HOME</h2>
+    </button>
+    <button class="header-divs div-dungeon" (click)="navigationService.pageReload()">
+        <h2 class="heading-style line red">ENTER THY DUNGEON</h2>
+    </button>
+    <button class="header-divs div-aboutus" (click)="navigationService.navigateToAboutUs()">
+        <h2 class="heading-style line yellow">ABOUT US</h2>
+    </button>
+  </div>
+  
+  <div #scrollableDiv class="content" (scroll)="onScroll($event)">
+    <ngx-masonry [options]="masonryOptions" class="ngx-masonry" [ordered]="true">
+      <div ngxMasonryItem *ngFor="let image of this.memesParams.memeImages;index as idx" class="ngx-masonry-item">
+        <div #colorDiv [ngStyle]="{'position': 'absolute', 'top': '0', 'right': '0', 'bottom': '0', 'left': '0', 'z-index': '2', 
+          'background-color': image.color}"> </div>
+        <div class="card text-white bg-dark mb-3" style="max-width: 18r; padding-bottom: 0px;"> 
+          <div class="card-header" style="padding-top: 2px; padding-bottom: 1px;">
+            <h4 style="font-size: 12px; padding-top: 12px;">Beta User: {{image.betaUsername}}</h4>
+          </div>
+          <div class="card-body text-success" style="padding-top: 0px; padding-bottom: 0px;">
+            <img class="image-container" [attr.src]="image.imageUrl" width="100%" style="z-index: 1">
+          </div>
+        </div>
+      </div>
+    </ngx-masonry>
+  </div>
+
+</div>
