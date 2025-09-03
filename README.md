@@ -1,5 +1,28 @@
 # Memey
 
+Memey is a web application for browsing and generating memes. It features an infinite-scroll meme gallery with a masonry grid layout, a meme generator, and integration with social media content like Twitter.
+
+## What It Does
+
+- **Meme Gallery**: Browse through memes in an endless scrolling gallery with a Pinterest-style masonry layout
+- **Meme Generator**: Create your own memes (accessible via the meme generator component)
+- **Social Integration**: View embedded tweets and social content
+- **Responsive Design**: Optimized for desktop use (mobile users are redirected to a not-supported page)
+- **Clean Content View**: Curated meme content with embedded social media posts
+
+## Technologies Used
+
+- **Frontend**: Angular 15 with TypeScript
+- **Backend**: Firebase (for storage and hosting)
+- **UI Framework**: Angular Material and Bootstrap 5
+- **Special Features**:
+  - Masonry grid layout for image display
+  - Infinite scroll for seamless browsing
+  - Device detection for responsive behavior
+  - Smooth animations with AOS (Animate on Scroll)
+  - Twitter widget integration
+- **Development**: Angular CLI for project scaffolding and build tools
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.5.
 
 ## Development server
