@@ -10,6 +10,13 @@ Memey is a web application for browsing and generating memes. It features an inf
 - **Responsive Design**: Optimized for desktop use (mobile users are redirected to a not-supported page)
 - **Clean Content View**: Curated meme content with embedded social media posts
 
+
+<img width="1414" height="737" alt="Screenshot 2025-09-03 at 10 27 52 AM" src="https://github.com/user-attachments/assets/2f7da0dc-68ba-4d95-a8a9-ed50d3162690" />
+
+<img width="1414" height="737" alt="Screenshot 2025-09-03 at 10 28 04 AM" src="https://github.com/user-attachments/assets/3fc0efcd-27f9-4e72-a0d4-894c964e2d07" />
+
+
+
 ## Technologies Used
 
 - **Frontend**: Angular 15 with TypeScript
