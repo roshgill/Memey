@@ -1,11 +1,10 @@
 # Memey
 
-Memey is a web application for browsing and generating memes. It features an infinite-scroll meme gallery with a masonry grid layout, a meme generator, and integration with social media content like Twitter.
+Memey is a webapp for browsing popular internet memes. It features an infinite scroll meme gallery with a masonry grid layout and social media content like Twitter.
 
 ## What It Does
 
-- **Meme Gallery**: Browse through memes in an endless scrolling gallery with a Pinterest-style masonry layout
-- **Meme Generator**: Create your own memes (accessible via the meme generator component)
+- **Meme Gallery**: Browse through memes in a scrolling gallery with a Pinterest style masonry layout
 - **Social Integration**: View embedded tweets and social content
 - **Responsive Design**: Optimized for desktop use (mobile users are redirected to a not-supported page)
 - **Clean Content View**: Curated meme content with embedded social media posts
