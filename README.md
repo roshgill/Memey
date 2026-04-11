@@ -10,4 +10,6 @@ Frontend: Angular 15 with TypeScript
 Backend: Firebase (for storage and hosting)
 UI Framework: Angular Material and Bootstrap 5
 
+[Meme Web Scraper](https://github.com/roshgill/Python-Web-Scraper)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.5.
